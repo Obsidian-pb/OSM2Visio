@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type='text/xsl' href='_UpgradeReport_Files/UpgradeReport.xslt'?><UpgradeLog>
+<Properties><Property Name="Solution" Value="OSM2Visio">
+</Property><Property Name="Solution File" Value="C:\Users\obsidian\Documents\Visual Studio 2010\Projects\OSM2Visio\OSM2Visio.sln">
+</Property><Property Name="User Options File" Value="C:\Users\obsidian\Documents\Visual Studio 2010\Projects\OSM2Visio\OSM2Visio.suo">
+</Property><Property Name="Date" Value="29 сентября 2016 г.">
+</Property><Property Name="Time" Value="11:49">
+</Property></Properties><Event ErrorLevel="0" Project="" Source="OSM2Visio.sln" Description="File successfully backed up as C:\Users\obsidian\Documents\Visual Studio 2010\Projects\OSM2Visio\Backup\OSM2Visio.sln">
+</Event><Event ErrorLevel="0" Project="" Source="OSM2Visio.suo" Description="File successfully backed up as C:\Users\obsidian\Documents\Visual Studio 2010\Projects\OSM2Visio\Backup\OSM2Visio.suo">
+</Event><Event ErrorLevel="0" Project="OSM2Visio" Source="OSM2Visio\OSM2Visio.csproj" Description="Project file successfully backed up as C:\Users\obsidian\Documents\Visual Studio 2010\Projects\OSM2Visio\Backup\OSM2Visio\OSM2Visio.csproj">
+</Event><Event ErrorLevel="0" Project="OSM2Visio" Source="OSM2Visio\f_SlectDataDialog.cs" Description="File successfully backed up as C:\Users\obsidian\Documents\Visual Studio 2010\Projects\OSM2Visio\Backup\OSM2Visio\f_SlectDataDialog.cs">
+</Event><Event ErrorLevel="0" Project="OSM2Visio" Source="OSM2Visio\f_SlectDataDialog.Designer.cs" Description="File successfully backed up as C:\Users\obsidian\Documents\Visual Studio 2010\Projects\OSM2Visio\Backup\OSM2Visio\f_SlectDataDialog.Designer.cs">
+</Event><Event ErrorLevel="0" Project="OSM2Visio" Source="OSM2Visio\Properties\AssemblyInfo.cs" Description="File successfully backed up as C:\Users\obsidian\Documents\Visual Studio 2010\Projects\OSM2Visio\Backup\OSM2Visio\Properties\AssemblyInfo.cs">
+</Event><Event ErrorLevel="0" Project="OSM2Visio" Source="OSM2Visio\Properties\Resources.Designer.cs" Description="File successfully backed up as C:\Users\obsidian\Documents\Visual Studio 2010\Projects\OSM2Visio\Backup\OSM2Visio\Properties\Resources.Designer.cs">
+</Event><Event ErrorLevel="0" Project="OSM2Visio" Source="OSM2Visio\Properties\Settings.Designer.cs" Description="File successfully backed up as C:\Users\obsidian\Documents\Visual Studio 2010\Projects\OSM2Visio\Backup\OSM2Visio\Properties\Settings.Designer.cs">
+</Event><Event ErrorLevel="0" Project="OSM2Visio" Source="OSM2Visio\ThisAddIn.cs" Description="File successfully backed up as C:\Users\obsidian\Documents\Visual Studio 2010\Projects\OSM2Visio\Backup\OSM2Visio\ThisAddIn.cs">
+</Event><Event ErrorLevel="0" Project="OSM2Visio" Source="OSM2Visio\ThisAddIn.Designer.cs" Description="File successfully backed up as C:\Users\obsidian\Documents\Visual Studio 2010\Projects\OSM2Visio\Backup\OSM2Visio\ThisAddIn.Designer.cs">
+</Event><Event ErrorLevel="0" Project="OSM2Visio" Source="OSM2Visio\OSM2Visio_TemporaryKey.pfx" Description="File successfully backed up as C:\Users\obsidian\Documents\Visual Studio 2010\Projects\OSM2Visio\Backup\OSM2Visio\OSM2Visio_TemporaryKey.pfx">
+</Event><Event ErrorLevel="0" Project="OSM2Visio" Source="OSM2Visio\Properties\Settings.settings" Description="File successfully backed up as C:\Users\obsidian\Documents\Visual Studio 2010\Projects\OSM2Visio\Backup\OSM2Visio\Properties\Settings.settings">
+</Event><Event ErrorLevel="0" Project="OSM2Visio" Source="OSM2Visio\ThisAddIn.Designer.xml" Description="File successfully backed up as C:\Users\obsidian\Documents\Visual Studio 2010\Projects\OSM2Visio\Backup\OSM2Visio\ThisAddIn.Designer.xml">
+</Event><Event ErrorLevel="0" Project="OSM2Visio" Source="OSM2Visio\f_SlectDataDialog.resx" Description="File successfully backed up as C:\Users\obsidian\Documents\Visual Studio 2010\Projects\OSM2Visio\Backup\OSM2Visio\f_SlectDataDialog.resx">
+</Event><Event ErrorLevel="0" Project="OSM2Visio" Source="OSM2Visio\Properties\Resources.resx" Description="File successfully backed up as C:\Users\obsidian\Documents\Visual Studio 2010\Projects\OSM2Visio\Backup\OSM2Visio\Properties\Resources.resx">
+</Event><Event ErrorLevel="0" Project="OSM2Visio" Source="OSM2Visio\OSM2Visio.csproj" Description="Project converted successfully">
+</Event><Event ErrorLevel="3" Project="OSM2Visio" Source="OSM2Visio\OSM2Visio.csproj" Description="Converted">
+</Event><Event ErrorLevel="0" Project="" Source="OSM2Visio.sln" Description="The solution file does not require conversion.">
+</Event><Event ErrorLevel="3" Project="" Source="OSM2Visio.sln" Description="No Conversion Required">
+</Event><Event ErrorLevel="0" Project="OSM2Visio" Source="OSM2Visio\OSM2Visio.csproj" Description="Scan complete: Upgrade not required for project files.">
+</Event></UpgradeLog>
