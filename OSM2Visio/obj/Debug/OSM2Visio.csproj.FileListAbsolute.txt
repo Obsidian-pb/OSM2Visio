@@ -300,3 +300,31 @@ C:\Users\obsidian\Documents\Visual Studio 2010\Projects\OSM2Visio - 7\OSM2Visio\
 C:\Users\obsidian\Documents\Visual Studio 2010\Projects\OSM2Visio - 7\OSM2Visio\obj\Debug\OSM2Visio.csproj.GenerateResource.Cache
 C:\Users\obsidian\Documents\Visual Studio 2010\Projects\OSM2Visio - 7\OSM2Visio\obj\Debug\OSM2Visio.dll
 C:\Users\obsidian\Documents\Visual Studio 2010\Projects\OSM2Visio - 7\OSM2Visio\obj\Debug\OSM2Visio.pdb
+C:\Git\OSM2Visio\OSM2Visio\bin\Debug\OSM2Visio.dll
+C:\Git\OSM2Visio\OSM2Visio\bin\Debug\OSM2Visio.pdb
+C:\Git\OSM2Visio\OSM2Visio\bin\Debug\OSM2Visio.dll.manifest
+C:\Git\OSM2Visio\OSM2Visio\bin\Debug\OSM2Visio.vsto
+C:\Git\OSM2Visio\OSM2Visio\bin\Debug\Awesomium.Core.dll
+C:\Git\OSM2Visio\OSM2Visio\bin\Debug\Awesomium.Windows.Forms.dll
+C:\Git\OSM2Visio\OSM2Visio\bin\Debug\Microsoft.Office.Tools.Common.v4.0.Utilities.dll
+C:\Git\OSM2Visio\OSM2Visio\bin\Debug\Awesomium.Core.xml
+C:\Git\OSM2Visio\OSM2Visio\bin\Debug\Awesomium.Windows.Forms.xml
+C:\Git\OSM2Visio\OSM2Visio\bin\Debug\Microsoft.Office.Tools.Common.v4.0.Utilities.xml
+C:\Git\OSM2Visio\OSM2Visio\bin\Debug\awesomium.dll
+C:\Git\OSM2Visio\OSM2Visio\bin\Debug\icudt.dll
+C:\Git\OSM2Visio\OSM2Visio\bin\Debug\avcodec-53.dll
+C:\Git\OSM2Visio\OSM2Visio\bin\Debug\avformat-53.dll
+C:\Git\OSM2Visio\OSM2Visio\bin\Debug\avutil-51.dll
+C:\Git\OSM2Visio\OSM2Visio\bin\Debug\libEGL.dll
+C:\Git\OSM2Visio\OSM2Visio\bin\Debug\libGLESv2.dll
+C:\Git\OSM2Visio\OSM2Visio\bin\Debug\awesomium_process
+C:\Git\OSM2Visio\OSM2Visio\bin\Debug\inspector.pak
+C:\Git\OSM2Visio\OSM2Visio\bin\Debug\xinput9_1_0.dll
+C:\Git\OSM2Visio\OSM2Visio\bin\Debug\pdf_js.pak
+C:\Git\OSM2Visio\OSM2Visio\obj\Debug\OSM2Visio.csprojResolveAssemblyReference.cache
+C:\Git\OSM2Visio\OSM2Visio\obj\Debug\OSM2Visio.f_DrawProcess.resources
+C:\Git\OSM2Visio\OSM2Visio\obj\Debug\OSM2Visio.f_ImportDataDialog.resources
+C:\Git\OSM2Visio\OSM2Visio\obj\Debug\OSM2Visio.Properties.Resources.resources
+C:\Git\OSM2Visio\OSM2Visio\obj\Debug\OSM2Visio.csproj.GenerateResource.Cache
+C:\Git\OSM2Visio\OSM2Visio\obj\Debug\OSM2Visio.dll
+C:\Git\OSM2Visio\OSM2Visio\obj\Debug\OSM2Visio.pdb

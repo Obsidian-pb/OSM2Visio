@@ -154,6 +154,10 @@ namespace OSM2Visio
 
             //---Определяем линейные размеры прямоугольника и приравниваем к нему рабочий лист
             SetSizeScale(ref VisioApp, v_Box);
+            //---Увеличиваме картинку листа по размеру окна  Application.ActiveWindow.ViewFit = visFitPage
+            VisioApp.ActiveWindow.ViewFit = (int)Visio.VisWindowFit.visFitPage;
+            this.Focus();
+            this.Top = 200; this.Left = 400;
 
             //---Получаем узел с перечислением Way
             NodesList = Data.SelectNodes("//way");
