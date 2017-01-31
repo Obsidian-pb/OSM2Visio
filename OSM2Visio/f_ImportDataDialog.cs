@@ -89,7 +89,7 @@ namespace OSM2Visio
             //Создаем экземпляр формы процесса отрисовки
             f_DrawProcess v_ProcessForm = new f_DrawProcess();
 
-            v_ProcessForm.Pv_Draw(VisApp, OSMData);
+            v_ProcessForm.Pv_Draw(VisApp, OSMData, CB_EWSSource.SelectedIndex);
             //v_ProcessForm.Show();
         }
     }

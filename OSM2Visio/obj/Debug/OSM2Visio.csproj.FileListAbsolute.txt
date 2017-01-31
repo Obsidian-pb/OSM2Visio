@@ -328,3 +328,7 @@ C:\Git\OSM2Visio\OSM2Visio\obj\Debug\OSM2Visio.Properties.Resources.resources
 C:\Git\OSM2Visio\OSM2Visio\obj\Debug\OSM2Visio.csproj.GenerateResource.Cache
 C:\Git\OSM2Visio\OSM2Visio\obj\Debug\OSM2Visio.dll
 C:\Git\OSM2Visio\OSM2Visio\obj\Debug\OSM2Visio.pdb
+C:\OSM2VisioFiles\Debug\OSM2Visio.dll
+C:\OSM2VisioFiles\Debug\OSM2Visio.pdb
+C:\OSM2VisioFiles\Debug\OSM2Visio.dll.manifest
+C:\OSM2VisioFiles\Debug\OSM2Visio.vsto

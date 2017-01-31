@@ -87,6 +87,7 @@
             "EWS (на базе Access)",
             "EWS (на базе SQL Server)",
             "ЭСУ ППВ"});
+            this.CB_EWSSource.SelectedIndex = 0;
             this.CB_EWSSource.Location = new System.Drawing.Point(6, 32);
             this.CB_EWSSource.Name = "CB_EWSSource";
             this.CB_EWSSource.Size = new System.Drawing.Size(271, 21);
