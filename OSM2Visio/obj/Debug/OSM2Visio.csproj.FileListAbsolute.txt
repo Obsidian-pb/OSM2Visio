@@ -332,3 +332,15 @@ C:\OSM2VisioFiles\Debug\OSM2Visio.dll
 C:\OSM2VisioFiles\Debug\OSM2Visio.pdb
 C:\OSM2VisioFiles\Debug\OSM2Visio.dll.manifest
 C:\OSM2VisioFiles\Debug\OSM2Visio.vsto
+E:\OSM2VisioFiles\Debug\OSM2Visio.dll
+E:\OSM2VisioFiles\Debug\OSM2Visio.pdb
+E:\OSM2VisioFiles\Debug\OSM2Visio.dll.manifest
+E:\OSM2VisioFiles\Debug\OSM2Visio.vsto
+E:\GitHub\OSM2Visio\OSM2Visio\obj\Debug\ResolveAssemblyReference.cache
+E:\GitHub\OSM2Visio\OSM2Visio\obj\Debug\OSM2Visio.f_DrawProcess.resources
+E:\GitHub\OSM2Visio\OSM2Visio\obj\Debug\OSM2Visio.f_ImportDataDialog.resources
+E:\GitHub\OSM2Visio\OSM2Visio\obj\Debug\OSM2Visio.Properties.Resources.resources
+E:\GitHub\OSM2Visio\OSM2Visio\obj\Debug\GenerateResource.read.1.tlog
+E:\GitHub\OSM2Visio\OSM2Visio\obj\Debug\GenerateResource.write.1.tlog
+E:\GitHub\OSM2Visio\OSM2Visio\obj\Debug\OSM2Visio.dll
+E:\GitHub\OSM2Visio\OSM2Visio\obj\Debug\OSM2Visio.pdb

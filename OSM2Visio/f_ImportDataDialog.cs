@@ -81,7 +81,9 @@ namespace OSM2Visio
 
             //Формируем документ XML
             OSMData.Load(TB_FilePath.Text);
-            //MessageBox.Show(OSMData.InnerXml);
+            
+            //Получаем путь к файлу данных ИНППВ
+            string EWS_DataFilePath = TB_EWSPath.Text;
 
             //Закрываем текущую форму
             this.Close();
@@ -89,7 +91,7 @@ namespace OSM2Visio
             //Создаем экземпляр формы процесса отрисовки
             f_DrawProcess v_ProcessForm = new f_DrawProcess();
 
-            v_ProcessForm.Pv_Draw(VisApp, OSMData, CB_EWSSource.SelectedIndex);
+            v_ProcessForm.Pv_Draw(VisApp, OSMData, CB_EWSSource.SelectedIndex, EWS_DataFilePath);
             //v_ProcessForm.Show();
         }
     }

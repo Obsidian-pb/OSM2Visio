@@ -109,7 +109,7 @@ namespace OSM2Visio
         //---------------------------Внешние проки формы
         //Основная прока отрисовки зданий из OSM, Получает XMLDocument документ с данными из файла
         public void Pv_Draw(Microsoft.Office.Interop.Visio.Application VisioApp,
-            System.Xml.XmlDocument Data , int INPPVSourceIndex)
+            System.Xml.XmlDocument Data , int INPPVSourceIndex, string EWSFilePath)
         {
             //Переменные для работы
             System.Xml.XmlNodeList NodesList;
@@ -155,7 +155,7 @@ namespace OSM2Visio
 
             //---Определяем линейные размеры прямоугольника и приравниваем к нему рабочий лист
             SetSizeScale(ref VisioApp, v_Box);
-            //---Увеличиваме картинку листа по размеру окна  Application.ActiveWindow.ViewFit = visFitPage
+            //---Увеличиваем картинку листа по размеру окна  Application.ActiveWindow.ViewFit = visFitPage
             VisioApp.ActiveWindow.ViewFit = (int)Visio.VisWindowFit.visFitPage;
             this.Focus();
             this.Top = 200; this.Left = 400;
@@ -255,7 +255,13 @@ namespace OSM2Visio
 
                     break;
                 case 3:  //Файл данных ЭСУ ППВ
+                    //Получаем документ XML со сведенями о ИНППВ
+                    System.Xml.XmlDocument INPPW_Data = new System.Xml.XmlDocument();
+                    INPPW_Data.Load(EWSFilePath);
 
+                    DrawINPPW_ESU INPPW_ESU = new DrawINPPW_ESU(VisioApp, INPPW_Data, this, v_Box);
+                    INPPW_ESU.DrawData();
+                    INPPW_ESU = null;
                     break;
                 default:
 

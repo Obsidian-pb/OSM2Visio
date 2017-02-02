@@ -223,6 +223,7 @@
     <Compile Include="Code\CommandBarEventHandler.cs" />
     <Compile Include="Code\c_ToolBars.cs" />
     <Compile Include="Code\DrawData\DrawINPPV_OSM.cs" />
+    <Compile Include="Code\DrawData\DrawINPPW_ESU.cs" />
     <Compile Include="Code\DrawTools.cs" />
     <Compile Include="f_DrawProcess.cs">
       <SubType>Form</SubType>
