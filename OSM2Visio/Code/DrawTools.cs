@@ -32,7 +32,18 @@ namespace OSM2Visio.Code
         }
         #endregion Структуры координат
 
+        //#region Структуры ИНППВ
+        //public struct INPPWDataObject
+        //{
+        //    public string type;
+        //    public string address;
+        //    public bool State;
+        //    public string 
+        //}
 
+        //#region Структуры ИНППВ
+
+        public enum INPPW_Types {PG, PW, MO, LO, NO, SO, Sk, Gr, Such, Ok, PK, PO, Bash, Pd, Pirs, nothing}
 
         /// <summary>
         /// Прока превращает входящую строку в строку формулы для вставки 
@@ -122,6 +133,13 @@ namespace OSM2Visio.Code
             y = 0;
             return false;
         }
+
+        //internal static void GetPosition(string[] tempStrArr, ref double x, ref double y)
+        //{
+        //    throw new NotImplementedException();
+        //}
+
+
         /// <summary>
         /// Функция возварщает количество дюймов в одном градусе долготы
         /// </summary>
@@ -393,6 +411,42 @@ namespace OSM2Visio.Code
         }
 
         #endregion Работа с фигурами Visio
+
+        #region Работа со строками
+        /// <summary>
+        /// Функция возвращает подстроку с содержимым параметра
+        /// </summary>
+        /// <param name="description"></param>
+        /// <param name="substr"></param>
+        /// <returns></returns>
+        static public string GetSubstringFromDescription(string description, string substr)
+        {
+            int pos1=0; int pos2=0;
+
+            try
+            {
+                pos1 = description.IndexOf(substr) + substr.Length;
+                for (int i = pos1; i < description.Length-5; i++)
+			    {
+			        if (description.Substring(i, 4)=="<br>")
+                    {
+                        pos2 = i;
+                        break;
+                    }
+			    }
+                return description.Substring(pos1, pos2 - pos1);
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+                return "";
+                //throw;
+            }
+        }
+
+
+        #endregion Работа со строками
+
 
     }
 }
