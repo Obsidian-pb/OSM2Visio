@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Xml.Linq;
+using System.IO.Compression;
+using System.IO;
 //using System.Array;
 using Visio = Microsoft.Office.Interop.Visio;
 using Office = Microsoft.Office.Core;
@@ -258,6 +260,9 @@ namespace OSM2Visio
                     //Получаем документ XML со сведенями о ИНППВ
                     System.Xml.XmlDocument INPPW_Data = new System.Xml.XmlDocument();
                     INPPW_Data.Load(EWSFilePath);
+
+
+
 
                     DrawINPPW_ESU INPPW_ESU = new DrawINPPW_ESU(VisioApp, INPPW_Data, this, v_Box);
                     INPPW_ESU.DrawData();
@@ -965,6 +970,21 @@ namespace OSM2Visio
                 //throw;
             }
         }
+
+        //private System.Xml.XmlDocument GetEWSDataFroESUPPW(string _path)
+        //{
+        //    FileStream zipToOpen = new FileStream(_path, FileMode.Open);
+        //    GZipStream  archive = new GZipStream(zipToOpen, CompressionMode.Decompress)
+
+        //    archive.
+
+        //    ZipArchiveEntry readmeEntry = archive.CreateEntry("Readme.txt");
+
+            
+
+
+        //}
+
 
 
         //-----------------Публичные проки измененеия состояния прогрессбара--------------------
