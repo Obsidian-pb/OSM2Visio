@@ -43,7 +43,7 @@ namespace OSM2Visio
                     FD.Filter = "Файл строки подключения к БД|*.txt";
                     break;
                 case 3:
-                    FD.Filter = "Файл данных ЭСУ ППВ|*.kml";
+                    FD.Filter = "Файл данных ЭСУ ППВ|*.kmz";
                     break;
                 default:
                     FD.Filter = "Все файлы|*.*";

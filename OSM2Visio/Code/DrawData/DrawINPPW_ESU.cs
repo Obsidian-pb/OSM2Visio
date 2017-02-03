@@ -12,7 +12,7 @@ namespace OSM2Visio.Code.DrawData
     {
         Microsoft.Office.Interop.Visio.Application VisioApp;
         System.Xml.XmlDocument Data;    //Здесь - документ KML - извлеченный из KMZ
-        Object kmzFile;                 //Документ KMZ
+        //Object kmzFile;                 //Документ KMZ
         f_DrawProcess drawForm;
 
         //Переменные для работы
@@ -51,7 +51,7 @@ namespace OSM2Visio.Code.DrawData
             int i=0;
             DrawTools.INPPW_Types INPPW_Type;
             string[] tempStrArr;
-            string tempStr="";
+            //string tempStr="";
             string description;
             string condition;
             string caption;
@@ -86,37 +86,40 @@ namespace OSM2Visio.Code.DrawData
                         //Получаем координаты точки где необходимо вставить ИНППВ
                         x = DrawTools.pf_StrToDbl(tempStrArr[0]);
                         y = DrawTools.pf_StrToDbl(tempStrArr[1]);
-
-//Проверяем входит ли координата в прямоугольник карты
+                        DrawTools.Coordinate pnt2; pnt2.x = x; pnt2.y = y;
 
                         //Получаем координату относительно края области (в дюймах - все в дюймах)
                         XPos = (x - v_Box.XY1.x); YPos = (y - v_Box.XY1.y);
                         pnt.x = XPos * InchInGradH; pnt.y = YPos * InchInGradV;
 
-                        //---Описание
-                        caption = node.ChildNodes.Item(0).InnerText;
+                        //Проверяем входит ли координата в прямоугольник карты
+                        if (DrawTools.checkForBox(pnt2, v_Box))
+                        {
+                            //---Описание
+                            caption = node.ChildNodes.Item(0).InnerText;
 
-                        //---Тип ИНППВ
-                        INPPW_Type = GetTypeINPPW(caption);
+                            //---Тип ИНППВ
+                            INPPW_Type = GetTypeINPPW(caption);
 
-                        //---Описание
-                        description = node.ChildNodes.Item(2).InnerText;
-                        description = description.Substring(2, description.Length - 4);
+                            //---Описание
+                            description = node.ChildNodes.Item(2).InnerText;
+                            description = description.Substring(2, description.Length - 4);
 
-                        //---Состояние
-                        condition = node.ChildNodes.Item(1).InnerText;
+                            //---Состояние
+                            condition = node.ChildNodes.Item(1).InnerText;
 
-                        //Создаем новый ИНППВ, согласно указанным в node координатам
-                        CreateEWS_ESU(ref VisioApp, pnt, INPPW_Type, description, condition, caption);
+                            //Создаем новый ИНППВ, согласно указанным в node координатам
+                            CreateEWS_ESU(ref VisioApp, pnt, INPPW_Type, description, condition, caption);
+                        }
 
                         drawForm.SetProgressBarCurrentValue(i);
                         i++;
                     }
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                MessageBox.Show(e.Message);
+                //MessageBox.Show(e.Message);
                 //throw;
             }
             
@@ -136,8 +139,6 @@ namespace OSM2Visio.Code.DrawData
         {
             Visio.Shape shp;
             string numberINPPW;
-            //string typePG;
-            //string diameter;
             string address;
             bool state;
 
@@ -145,75 +146,96 @@ namespace OSM2Visio.Code.DrawData
             numberINPPW = GetNumberINPPW(caption);
             state = GetStateINPPW(description);
 
-
             switch (INPPW_Type)
             {
                 case DrawTools.INPPW_Types.PG:
                     //Вбрасываем новый ПГ
                     shp = DropNewPG(pnt, caption, address, numberINPPW, state);
+                    AddCommonData(shp, description);
                     break;
                 case DrawTools.INPPW_Types.PW:
                     //Вбрасываем новый ПВ
                     shp = DropNewPW(pnt, caption, address, numberINPPW, state);
+                    AddCommonData(shp, description);
                     break;
                 case DrawTools.INPPW_Types.MO:
                     //Вбрасываем новый ПГ
                     shp = DropNewPG(pnt, caption, address, numberINPPW, state);
+                    AddCommonData(shp, description);
                     break;
                 case DrawTools.INPPW_Types.LO:
                     //Вбрасываем новый ПГ
                     shp = DropNewPG(pnt, caption, address, numberINPPW, state);
+                    AddCommonData(shp, description);
                     break;
                 case DrawTools.INPPW_Types.NO:
                     //Вбрасываем новый ПГ
                     shp = DropNewPG(pnt, caption, address, numberINPPW, state);
+                    AddCommonData(shp, description);
                     break;
                 case DrawTools.INPPW_Types.SO:
                     //Вбрасываем новый ПГ
                     shp = DropNewPG(pnt, caption, address, numberINPPW, state);
+                    AddCommonData(shp, description);
                     break;
                 case DrawTools.INPPW_Types.Sk:
                     //Вбрасываем новый колодец
                     shp = DropNewSK(pnt, caption, address, numberINPPW, state);
+                    AddCommonData(shp, description);
                     break;
                 case DrawTools.INPPW_Types.Gr:
                     //Вбрасываем новый водоем
                     shp = DropNewPW(pnt, caption, address, numberINPPW, state);
+                    AddCommonData(shp, description);
                     break;
                 case DrawTools.INPPW_Types.Such:
-                    //Вбрасываем новый ПК - так как специального символа для Схотруба нет
+                    //Вбрасываем новый ПК - так как специального символа для Сухотруба нет
                     shp = DropNewPK(pnt, caption, address, numberINPPW, state);
+                    AddCommonData(shp, description);
                     break;
                 case DrawTools.INPPW_Types.Ok:
                     break;
                 case DrawTools.INPPW_Types.PK:
                     //Вбрасываем новый ПК
                     shp = DropNewPK(pnt, caption, address, numberINPPW, state);
+                    AddCommonData(shp, description);
                     break;
                 case DrawTools.INPPW_Types.PO:
                     break;
                 case DrawTools.INPPW_Types.Bash:
                     //Вбрасываем новую башню
                     shp = DropNewBash(pnt, caption, address, numberINPPW, state);
+                    AddCommonData(shp, description);
                     break;
                 case DrawTools.INPPW_Types.Pd:
                     //Вбрасываем новый пирс
                     shp = DropNewPirs(pnt, caption, address, numberINPPW, state);
+                    AddCommonData(shp, description);
                     break;
                 case DrawTools.INPPW_Types.Pirs:
                     //Вбрасываем новый пирс
                     shp = DropNewPirs(pnt, caption, address, numberINPPW, state);
+                    AddCommonData(shp, description);
                     break;
                 default:
                     break;
             }
 
-            //добавляем описание ИНППВ в ячейку фигуры и делаем команду меню видимой
-
-
-
             return true;
         }
+
+        #region Работа с фигурами
+        /// <summary>
+        /// Метод копирует дополнительные сведения о ИППВ
+        /// </summary>
+        /// <param name="shp"></param>
+        /// <param name="_description"></param>
+        private void AddCommonData(Visio.Shape shp, string _description)
+        {
+            string commonData = _description.Replace("<br>", "\n");
+            shp.get_Cells("Prop.Common").FormulaU = DrawTools.StringToFormulaForString(commonData);
+        }
+        #endregion Работа с фигурами
 
         #region Служебные функции
         /// <summary>

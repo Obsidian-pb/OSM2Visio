@@ -9,11 +9,13 @@ using System.Windows.Forms;
 using System.Xml.Linq;
 using System.IO.Compression;
 using System.IO;
+using Ionic.Zip;
 //using System.Array;
 using Visio = Microsoft.Office.Interop.Visio;
 using Office = Microsoft.Office.Core;
 using OSM2Visio.Code.DrawData;
 using OSM2Visio.Code;
+
 
 namespace OSM2Visio
 {
@@ -258,12 +260,7 @@ namespace OSM2Visio
                     break;
                 case 3:  //Файл данных ЭСУ ППВ
                     //Получаем документ XML со сведенями о ИНППВ
-                    System.Xml.XmlDocument INPPW_Data = new System.Xml.XmlDocument();
-                    INPPW_Data.Load(EWSFilePath);
-
-
-
-
+                    System.Xml.XmlDocument INPPW_Data = GetKML(EWSFilePath);
                     DrawINPPW_ESU INPPW_ESU = new DrawINPPW_ESU(VisioApp, INPPW_Data, this, v_Box);
                     INPPW_ESU.DrawData();
                     INPPW_ESU = null;
@@ -971,19 +968,18 @@ namespace OSM2Visio
             }
         }
 
-        //private System.Xml.XmlDocument GetEWSDataFroESUPPW(string _path)
-        //{
-        //    FileStream zipToOpen = new FileStream(_path, FileMode.Open);
-        //    GZipStream  archive = new GZipStream(zipToOpen, CompressionMode.Decompress)
+        static private System.Xml.XmlDocument GetKML(string _filepath, string _kmlfile = "doc.KML")
+        {
+            System.Xml.XmlDocument tempXMLDoc = new System.Xml.XmlDocument();
 
-        //    archive.
+            var zip = ZipFile.Read(_filepath);
 
-        //    ZipArchiveEntry readmeEntry = archive.CreateEntry("Readme.txt");
+            Ionic.Crc.CrcCalculatorStream kmzreader = zip[_kmlfile].OpenReader();
+            StreamReader kmlreader = new StreamReader(kmzreader);
+            tempXMLDoc.LoadXml(kmlreader.ReadToEnd());
 
-            
-
-
-        //}
+            return tempXMLDoc;
+        }
 
 
 

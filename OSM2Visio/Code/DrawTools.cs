@@ -229,6 +229,12 @@ namespace OSM2Visio.Code
                 throw;
             }
         }
+
+        static public Boolean checkForBox(Coordinate _pnt, CoordRecatangle _box)
+        {
+            //MessageBox.Show(_pnt.x.ToString() + ", " + _pnt.y.ToString() + " --- " + _box.XY1.x.ToString() + ", " + _box.XY1.y.ToString() + ", " + _box.XY2.x.ToString() + ", " + _box.XY2.y.ToString());
+            return (_pnt.x > _box.XY1.x && _pnt.x < _box.XY2.x && _pnt.y > _box.XY1.y && _pnt.y < _box.XY2.y);
+        }
         #endregion Работа с координатами
 
         #region Работа с фигурами Visio
