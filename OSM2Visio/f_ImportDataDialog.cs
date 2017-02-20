@@ -1,10 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
+//using System.Collections.Generic;
+//using System.ComponentModel;
+//using System.Data;
+//using System.Drawing;
+//using System.Linq;
+//using System.Text;
 using System.Windows.Forms;
 using Visio = Microsoft.Office.Interop.Visio;
 using Office = Microsoft.Office.Core;
@@ -14,7 +14,7 @@ namespace OSM2Visio
 {
     public partial class f_ImportDataDialog : Form
     {
-        private Visio.Application VisApp;
+        //private Visio.Application VisApp;
         
         public f_ImportDataDialog()
         {
@@ -74,25 +74,46 @@ namespace OSM2Visio
 
         private void B_OK_Click(object sender, EventArgs e)
         {
-            System.Xml.XmlDocument OSMData = new System.Xml.XmlDocument();
+            try
+            {
+                System.Xml.XmlDocument OSMData = new System.Xml.XmlDocument();
             
-            //Получаем ссылку на текущее приложение
-            Visio.Application VisApp = Globals.ThisAddIn.Application;
+                //Получаем ссылку на текущее приложение
+                Visio.Application VisApp = Globals.ThisAddIn.Application;
 
-            //Формируем документ XML
-            OSMData.Load(TB_FilePath.Text);
+                //Формируем документ XML
+                OSMData.Load(TB_FilePath.Text);
             
-            //Получаем путь к файлу данных ИНППВ
-            string EWS_DataFilePath = TB_EWSPath.Text;
+                //Получаем путь к файлу данных ИНППВ
+                string EWS_DataFilePath = TB_EWSPath.Text;
 
-            //Закрываем текущую форму
-            this.Close();
+                //Закрываем текущую форму
+                //this.Close();
+                //this.Dispose();
+                this.Hide();
 
-            //Создаем экземпляр формы процесса отрисовки
-            f_DrawProcess v_ProcessForm = new f_DrawProcess();
+                //Создаем экземпляр формы процесса отрисовки
+                //f_DrawProcess v_ProcessForm = new f_DrawProcess();
+                //v_ProcessForm.Pv_Draw(VisApp, OSMData, CB_EWSSource.SelectedIndex, EWS_DataFilePath);
 
-            v_ProcessForm.Pv_Draw(VisApp, OSMData, CB_EWSSource.SelectedIndex, EWS_DataFilePath);
-            //v_ProcessForm.Show();
+                ThisAddIn.drawProcessForm.Pv_Draw(VisApp, OSMData, CB_EWSSource.SelectedIndex, EWS_DataFilePath);
+            }
+            catch (Exception exc)
+            {
+                MessageBox.Show(exc.Message);
+                throw;
+            }
+
         }
+
+        private void B_Cancel_Click(object sender, EventArgs e)
+        {
+            //Закрываем текущую форму
+            //this.Close();
+            //this.Dispose();
+            this.Hide();
+        }
+
+        
     }
 }

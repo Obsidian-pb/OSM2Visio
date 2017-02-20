@@ -6,7 +6,7 @@ using System.Windows.Forms;
 using Visio = Microsoft.Office.Interop.Visio;
 using Office = Microsoft.Office.Core;
 
-namespace OSM2Visio.Code.DrawData
+namespace OSM2Visio
 {
     class DrawINPPW_ESU
     {
@@ -42,6 +42,7 @@ namespace OSM2Visio.Code.DrawData
             InchInGradH = DrawTools.GetInchesInGradH(v_Box);
             InchInGradV = DrawTools.GetInchesInGradV(v_Box);
         }
+
 
         /// <summary>
         /// Прока отрисовки ИНППВ

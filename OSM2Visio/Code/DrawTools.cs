@@ -7,7 +7,7 @@ using System.Windows.Forms;
 
 /*Класс для работы хранения служебных процедур отрисовки*/
 
-namespace OSM2Visio.Code
+namespace OSM2Visio
 {
     static class DrawTools
     {
@@ -31,17 +31,6 @@ namespace OSM2Visio.Code
             public Coordinate XY1, XY2;
         }
         #endregion Структуры координат
-
-        //#region Структуры ИНППВ
-        //public struct INPPWDataObject
-        //{
-        //    public string type;
-        //    public string address;
-        //    public bool State;
-        //    public string 
-        //}
-
-        //#region Структуры ИНППВ
 
         public enum INPPW_Types {PG, PW, MO, LO, NO, SO, Sk, Gr, Such, Ok, PK, PO, Bash, Pd, Pirs, nothing}
 

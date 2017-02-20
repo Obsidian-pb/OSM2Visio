@@ -1,13 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
+//using System.Collections.Generic;
+//using System.ComponentModel;
+//using System.Data;
+//using System.Drawing;
+//using System.Linq;
+//using System.Text;
 using System.Windows.Forms;
-using System.Xml.Linq;
-using System.IO.Compression;
+//using System.Xml.Linq;
+//using System.IO.Compression;
 using System.IO;
 using Ionic.Zip;
 //using System.Array;
@@ -88,26 +88,6 @@ namespace OSM2Visio
 
         private System.Windows.Forms.ProgressBar PrB_DrawProcess;
         private System.Windows.Forms.Button B_OK;
-
-        //private double EARTH_RADIUS = 6371032;
-        //private double PI = 3.141592654;
-        //private double INCHINMETER = 39.3701;
-
-        //public struct Coordinate
-        //{
-        //    public Double x, y;
-
-        //    public void SetCrdnt(Double p1, Double p2)
-        //    {
-        //        x = p1;
-        //        y = p2;
-        //    }
-        //}
-        //public struct CoordRecatangle
-        //{
-        //    public Coordinate XY1, XY2;
-        //}
-
 
         //------------Проки отрисовки
         //---------------------------Внешние проки формы
@@ -253,7 +233,7 @@ namespace OSM2Visio
                     INPPv_OSM = null;
                     break;
                 case 1:  //Файл БД EWS
-
+                    DrawINPPW_EWS INPPW_EWS = new DrawINPPW_EWS(VisioApp, EWSFilePath, this, v_Box);
                     break;
                 case 2:  //Файл строки подключения к БД
 
@@ -974,9 +954,11 @@ namespace OSM2Visio
 
             var zip = ZipFile.Read(_filepath);
 
-            Ionic.Crc.CrcCalculatorStream kmzreader = zip[_kmlfile].OpenReader();
-            StreamReader kmlreader = new StreamReader(kmzreader);
+            //Ionic.Crc.CrcCalculatorStream kmzreader = zip[_kmlfile].OpenReader();
+            //StreamReader kmlreader = new StreamReader(kmzreader);
+            StreamReader kmlreader = new StreamReader(zip[_kmlfile].OpenReader());
             tempXMLDoc.LoadXml(kmlreader.ReadToEnd());
+            kmlreader.Close();
 
             return tempXMLDoc;
         }

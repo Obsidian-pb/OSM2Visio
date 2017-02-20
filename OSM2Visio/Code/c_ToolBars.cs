@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+//using System.Collections.Generic;
+//using System.Linq;
+//using System.Text;
 using Visio = Microsoft.Office.Interop.Visio;
 using Office = Microsoft.Office.Core;
 using System.Windows.Forms;
@@ -10,16 +10,7 @@ namespace OSM2Visio.Code
 {
     class c_ToolBars
     {
-        //private Office.CommandBar MenuBar;
-        //private Office.CommandBarPopup newMenuBar;
-        //private Office.CommandBarButton ButtonOne;
-        //private String menuTag; // As  = "AUniqueName"
-        
-
-
-
-
-
+        static CommandBarEventHandler eventHandler;
 
         /// <summary>Метод создает новую панель инструментов
         /// и отдает команды на добавление двух кнопок на него</summary>
@@ -34,9 +25,8 @@ namespace OSM2Visio.Code
 
             Microsoft.Office.Core.CommandBars theCommandBars;
             Microsoft.Office.Core.CommandBar addedCommandBar;
-            Microsoft.Office.Core.CommandBarButton addedCommandBarButton;
             Microsoft.Office.Core.CommandBarButton addedCommandBarButtonFireClick;
-            CommandBarEventHandler eventHandler;
+            
 
             if (commandBarName == null || theApplication == null)
             {
@@ -66,7 +56,8 @@ namespace OSM2Visio.Code
                 addedCommandBar.Protection = Microsoft.Office.Core.MsoBarProtection.msoBarNoCustomize;
 
                 // Отображаем the command bar.
-                addedCommandBar.Context = Convert.ToString((short)Microsoft.Office.Interop.Visio.VisUIObjSets.visUIObjSetDrawing, System.Globalization.CultureInfo.InvariantCulture) + "*";
+                //addedCommandBar.Context = Convert.ToString((short)Microsoft.Office.Interop.Visio.VisUIObjSets.visUIObjSetDrawing, System.Globalization.CultureInfo.InvariantCulture) + "*";
+                addedCommandBar.Visible = true;
 
                 // добавляем новую кнопку на  CommandBar.
                 addedCommandBarButtonFireClick = (Microsoft.Office.Core.CommandBarButton)
@@ -77,9 +68,9 @@ namespace OSM2Visio.Code
                 // This action will be monitored by the event handling class
                 // for the Click event.
                 // Note: The OnAction property is not used here.
-                addedCommandBarButtonFireClick.Caption = "MyButtonClickEvent";
+                addedCommandBarButtonFireClick.Caption = "Импорт карты OSM";
                 addedCommandBarButtonFireClick.TooltipText =
-                    "Click this button to trigger a Click event";
+                    "Импорт карты OSM";
                
                 // Put the button in a group bar.
                 addedCommandBarButtonFireClick.BeginGroup = true;
@@ -96,6 +87,8 @@ namespace OSM2Visio.Code
                 addedCommandBarButtonFireClick.Click += new Microsoft.Office.Core.
                     _CommandBarButtonEvents_ClickEventHandler
                     (eventHandler.MyCommandBarButtonClick);
+
+
                 
             }
             catch (Exception err)

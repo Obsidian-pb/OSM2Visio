@@ -186,6 +186,7 @@
             this.B_Cancel.TabIndex = 7;
             this.B_Cancel.Text = "Отмена";
             this.B_Cancel.UseVisualStyleBackColor = true;
+            this.B_Cancel.Click += new System.EventHandler(this.B_Cancel_Click);
             // 
             // f_ImportDataDialog
             // 
@@ -203,6 +204,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "f_ImportDataDialog";
             this.Text = "Импорт картографических данных Open Street Map";
+            //this.Load += new System.EventHandler(this.f_ImportDataDialog_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
