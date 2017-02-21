@@ -234,6 +234,8 @@ namespace OSM2Visio
                     break;
                 case 1:  //Файл БД EWS
                     DrawINPPW_EWS INPPW_EWS = new DrawINPPW_EWS(VisioApp, EWSFilePath, this, v_Box);
+                    INPPW_EWS.DrawData();
+                    INPPW_EWS = null;
                     break;
                 case 2:  //Файл строки подключения к БД
 
