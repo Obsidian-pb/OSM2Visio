@@ -260,8 +260,8 @@ namespace OSM2Visio
         {
             try
             {
-                a_shpDescendent.get_Cells(a_CellName).FormulaU =
-                    a_shpOrigin.get_Cells(a_CellName).FormulaU;
+                    a_shpDescendent.get_Cells(a_CellName).FormulaU =
+                        a_shpOrigin.get_Cells(a_CellName).FormulaU;                    
             }
             catch (Exception err)
             {

@@ -12,6 +12,11 @@ namespace OSM2Visio.Code
     {
         static CommandBarEventHandler eventHandler;
 
+        Microsoft.Office.Interop.Visio.Application visioApplication;
+        public Microsoft.Office.Core.CommandBars theCommandBars;
+        public Microsoft.Office.Core.CommandBar addedCommandBar;
+        public Microsoft.Office.Core.CommandBarButton addedCommandBarButtonFireClick;
+
         /// <summary>Метод создает новую панель инструментов
         /// и отдает команды на добавление двух кнопок на него</summary>
 		/// <param name="theApplication">Объект приложения</param>
@@ -20,13 +25,15 @@ namespace OSM2Visio.Code
             Microsoft.Office.Interop.Visio.Application theApplication,
             string commandBarName)
         {
-
             const int FACE_ID = 2934;
 
-            Microsoft.Office.Core.CommandBars theCommandBars;
-            Microsoft.Office.Core.CommandBar addedCommandBar;
-            Microsoft.Office.Core.CommandBarButton addedCommandBarButtonFireClick;
-            
+            //Сохраняем ссылку на приложение Visio
+            visioApplication = theApplication;
+
+            //Подписываемся на событие "Открытие документа" (при открытии нового документа проверяем, не является ли он трафаретом "Водоснабжение" или "План на местности")
+            theApplication.Documents.DocumentOpened += new Visio.EDocuments_DocumentOpenedEventHandler(Documents_DocumentOpened);
+            //Подписываемся на событие "Закрытие документа" (при открытии нового документа проверяем, не является ли он трафаретом "Водоснабжение" или "План на местности")
+            theApplication.Documents.BeforeDocumentClose += new Visio.EDocuments_BeforeDocumentCloseEventHandler(Documents_BeforeDocumentClose);
 
             if (commandBarName == null || theApplication == null)
             {
@@ -88,7 +95,7 @@ namespace OSM2Visio.Code
                     _CommandBarButtonEvents_ClickEventHandler
                     (eventHandler.MyCommandBarButtonClick);
 
-
+                addedCommandBarButtonFireClick.Enabled = false;
                 
             }
             catch (Exception err)
@@ -99,5 +106,72 @@ namespace OSM2Visio.Code
             }
 
         }
+
+        #region Проки проверки наличия необходимых открытых трафаретов
+        void Documents_DocumentOpened(Visio.Document Doc)
+        {
+            try
+            {
+                Microsoft.Office.Core.CommandBars commandBars;
+                Microsoft.Office.Core.CommandBar commandBar;
+                Microsoft.Office.Core.CommandBarButton button;
+                commandBars = visioApplication.CommandBars;
+                commandBar = commandBars["OSM Import"];
+                button = (Microsoft.Office.Core.CommandBarButton)commandBar.Controls["Импорт карты OSM"];
+
+                if (IsNeededTrafaretsExists())
+                    button.Enabled = true;
+                else
+                    button.Enabled = false;
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+                throw;
+            }
+        }
+
+        void Documents_BeforeDocumentClose(Visio.Document Doc)
+        {
+            try
+            {
+                Microsoft.Office.Core.CommandBars commandBars;
+                Microsoft.Office.Core.CommandBar commandBar;
+                Microsoft.Office.Core.CommandBarButton button;
+                commandBars = visioApplication.CommandBars;
+                commandBar = commandBars["OSM Import"];
+                button = (Microsoft.Office.Core.CommandBarButton)commandBar.Controls["Импорт карты OSM"];
+
+                if (IsNeededTrafaretsExists())
+                    button.Enabled = true;
+                else
+                    button.Enabled = false;
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+                throw;
+            }
+        }
+
+        private bool IsNeededTrafaretsExists()
+        {
+            bool stencilWaterSourceExists = false;
+            bool stencilPlacePlanExists = false;
+
+            foreach (Visio.Document doc in visioApplication.Documents)
+            {
+                if (doc.Name == "Водоснабжение.vss") stencilWaterSourceExists = true;
+                if (doc.Name == "План на местности.vss") stencilPlacePlanExists = true;
+            }
+            //MessageBox.Show(stencilWaterSourceExists.ToString() + " - " + stencilPlacePlanExists.ToString());
+            //Проверяем оба ли трафарета имеются в документе
+            if (stencilWaterSourceExists && stencilPlacePlanExists)
+            {
+                return true;
+            }
+            return false;
+        }
+        #endregion Проки проверки наличия необходимых открытых трафаретов
     }
 }

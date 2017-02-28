@@ -108,8 +108,6 @@ namespace OSM2Visio
                         //Проверяем входит ли координата в прямоугольник карты
                         if (DrawTools.checkForBox(pnt2, v_Box))
                         {
-                            //MessageBox.Show(i.ToString());
-                            //MessageBox.Show(" - " + dbReader.GetString(2) + " " + GetStringData(dbReader, 3));  //dbReader.GetString(3));
                             ews_Data.address = GetStringData(dbReader, 2) + " " + GetStringData(dbReader, 3); s = 2; //---Адрес
                             ews_Data.INPPW_Type = GetInt32Data(dbReader, 4); s = 4; //---Тип ИНППВ
                             ews_Data.pipeType = GetByteData(dbReader, 6); s = 6; //---Водовод
@@ -121,11 +119,11 @@ namespace OSM2Visio
                             ews_Data.PKDiameter = GetInt32Data(dbReader, 11); s = 11; //---Статус
                             //Создаем новый ИНППВ, согласно указанным в координатам, и передаем в него собранные данные
                             CreateEWS_EWS(ref VisioApp, pnt, ews_Data);
-                            //s=0;
                         }
                         
                         i++;
                         drawForm.SetProgressBarCurrentValue(i);
+                        Application.DoEvents();
                     }
 
                     //Закрываем соединение
@@ -139,13 +137,6 @@ namespace OSM2Visio
                 CloseDB();
                 //throw;
             }
-
-            
-
-
-
-
-            
         }
 
 
@@ -197,7 +188,7 @@ namespace OSM2Visio
         #endregion -------------------------------------------Работа с БД--------------------------------------------
 
 
-        //-------------------------------------------Вставка УГО ИНППВ--------------------------------------
+        #region -------------------------------------------Вставка УГО ИНППВ--------------------------------------
         /// <summary>
         /// Прока вставляет значек ИНППВ
         /// </summary>
@@ -214,32 +205,26 @@ namespace OSM2Visio
                 case 0:   //ПГ
                     //Вбрасываем новый ПГ
                     shp = DropNewPG(pnt, ews_Data);
-                    //AddCommonData(shp, description);
                     break;
                 case 1:   //ПВ
                     //Вбрасываем новый ПВ
-                    //shp = DropNewPW(pnt, ews_Data);
-                    //AddCommonData(shp, description);
+                    shp = DropNewPW(pnt, ews_Data);
                     break;
                 case 2:  //ПК
                     //Вбрасываем новый ПК
-                    //shp = DropNewPK(pnt, ews_Data);
-                    //AddCommonData(shp, description);
+                    shp = DropNewPK(pnt, ews_Data);
                     break;
                 case 3:  //Пирс
                     //Вбрасываем новый Пирс
-                    //shp = DropNewPirs(pnt, ews_Data);
-                    //AddCommonData(shp, description);
+                    shp = DropNewPirs(pnt, ews_Data);
                     break;
                 case 4:  //Башня
                     //Вбрасываем новую Башню
-                    //shp = DropNewBash(pnt, ews_Data);
-                    //AddCommonData(shp, description);
+                    shp = DropNewBash(pnt, ews_Data);
                     break;
                 case 5:  //Колодец
                     //Вбрасываем новый Колодец
-                    //shp = DropNewKolodec(pnt, ews_Data);
-                    //AddCommonData(shp, description);
+                    shp = DropNewKolodec(pnt, ews_Data);
                     break;
                 default:
                     break;
@@ -247,19 +232,8 @@ namespace OSM2Visio
 
             return true;
         }
+        #endregion -------------------------------------------Вставка УГО ИНППВ--------------------------------------
 
-        //#region Работа с фигурами
-        ///// <summary>
-        ///// Метод копирует дополнительные сведения о ИНППВ
-        ///// </summary>
-        ///// <param name="shp"></param>
-        ///// <param name="_description"></param>
-        //private void AddCommonData(Visio.Shape shp, string _description)
-        //{
-        //    string commonData = _description.Replace("<br>", "\n");
-        //    shp.get_Cells("Prop.Common").FormulaU = DrawTools.StringToFormulaForString(commonData);
-        //}
-        //#endregion Работа с фигурами
 
         #region Служебные функции
 
@@ -346,9 +320,168 @@ namespace OSM2Visio
                 return shp;
             }
         }
+        /// <summary>
+        /// Функция всавки новой фигуры ПВ
+        /// </summary>
+        /// <param name="pnt">координаты ИНППВ</param>
+        /// <param name="ews_Data">Объект данных ИНППВ</param>
+        /// <returns>shp - фигура ПГ</returns>
+        private Visio.Shape DropNewPW(DrawTools.Coordinate pnt, EWS_Data ews_Data)
+        {
+            Visio.Shape shp;
+            Visio.Master mstr;
 
+            mstr = VisioApp.Documents["Водоснабжение.vss"].Masters["ПВ"];
+            mstr.Shapes[1].get_Cells("EventDrop").FormulaU = "";  //Отключаем событие вброса для данной фигуры
+            shp = VisioApp.ActivePage.Drop(mstr.Shapes[1], pnt.x, pnt.y);
 
+            try
+            {
+                //Уазываем данные ПГ
+                shp.get_Cells("Prop.PWNumber").FormulaU = DrawTools.StringToFormulaForString(ews_Data.number);
+                shp.get_Cells("Prop.PWAdress").FormulaU = DrawTools.StringToFormulaForString(ews_Data.address);
+                shp.get_Cells("Prop.PipeType").FormulaU = DrawTools.StringToFormulaForString(GetTypePipe(ews_Data.pipeType));
+                shp.get_Cells("Prop.PWValue").FormulaU = DrawTools.StringToFormulaForString(ews_Data.value.ToString());
+                shp.get_Cells("Prop.SetsCount").FormulaU = DrawTools.StringToFormulaForString(ews_Data.PACount.ToString());
+                if (ews_Data.status == 1)
+                {
+                    shp.get_Cells("LineColor").FormulaU = DrawTools.StringToFormulaForString("2");
+                    shp.get_Cells("Char.Color").FormulaU = DrawTools.StringToFormulaForString("2");
+                }
+                return shp;
+            }
+            catch (Exception)
+            {
+                //MessageBox.Show(e.Message);                
+                return shp;
+            }
+        }
+        /// <summary>
+        /// Функция всавки новой фигуры ПК
+        /// </summary>
+        /// <param name="pnt">координаты ИНППВ</param>
+        /// <param name="ews_Data">Объект данных ИНППВ</param>
+        /// <returns>shp - фигура ПГ</returns>
+        private Visio.Shape DropNewPK(DrawTools.Coordinate pnt, EWS_Data ews_Data)
+        {
+            Visio.Shape shp;
+            Visio.Master mstr;
 
+            mstr = VisioApp.Documents["Водоснабжение.vss"].Masters["ПК"];
+            mstr.Shapes[1].get_Cells("EventDrop").FormulaU = "";  //Отключаем событие вброса для данной фигуры
+            shp = VisioApp.ActivePage.Drop(mstr.Shapes[1], pnt.x, pnt.y);
+
+            try
+            {
+                //Уазываем данные ПГ
+                shp.get_Cells("Prop.PKNumber").FormulaU = DrawTools.StringToFormulaForString(ews_Data.number);
+                shp.get_Cells("Prop.PKNumber").FormulaU = DrawTools.StringToFormulaForString(ews_Data.PKDiameter.ToString());
+                if (ews_Data.status == 1)
+                {
+                    shp.get_Cells("LineColor").FormulaU = DrawTools.StringToFormulaForString("2");
+                    shp.get_Cells("Char.Color").FormulaU = DrawTools.StringToFormulaForString("2");
+                }
+                return shp;
+            }
+            catch (Exception)
+            {
+                return shp;
+            }
+        }
+        /// <summary>
+        /// Функция всавки новой фигуры Пирса
+        /// </summary>
+        /// <param name="pnt">координаты ИНППВ</param>
+        /// <param name="ews_Data">Объект данных ИНППВ</param>
+        /// <returns>shp - фигура ПГ</returns>
+        private Visio.Shape DropNewPirs(DrawTools.Coordinate pnt, EWS_Data ews_Data)
+        {
+            Visio.Shape shp;
+            Visio.Master mstr;
+
+            mstr = VisioApp.Documents["Водоснабжение.vss"].Masters["Пирс"];
+            mstr.Shapes[1].get_Cells("EventDrop").FormulaU = "";  //Отключаем событие вброса для данной фигуры
+            shp = VisioApp.ActivePage.Drop(mstr.Shapes[1], pnt.x, pnt.y);
+
+            try
+            {
+                //Уазываем данные ПГ
+                shp.get_Cells("Prop.SetsCount").FormulaU = DrawTools.StringToFormulaForString(ews_Data.PACount.ToString());
+                if (ews_Data.status == 1)
+                {
+                    shp.get_Cells("LineColor").FormulaU = DrawTools.StringToFormulaForString("2");
+                    shp.get_Cells("Char.Color").FormulaU = DrawTools.StringToFormulaForString("2");
+                }
+                return shp;
+            }
+            catch (Exception)
+            {
+                return shp;
+            }
+        }
+        /// <summary>
+        /// Функция всавки новой фигуры Башни
+        /// </summary>
+        /// <param name="pnt">координаты ИНППВ</param>
+        /// <param name="ews_Data">Объект данных ИНППВ</param>
+        /// <returns>shp - фигура ПГ</returns>
+        private Visio.Shape DropNewBash(DrawTools.Coordinate pnt, EWS_Data ews_Data)
+        {
+            Visio.Shape shp;
+            Visio.Master mstr;
+
+            mstr = VisioApp.Documents["Водоснабжение.vss"].Masters["Башня"];
+            mstr.Shapes[1].get_Cells("EventDrop").FormulaU = "";  //Отключаем событие вброса для данной фигуры
+            shp = VisioApp.ActivePage.Drop(mstr.Shapes[1], pnt.x, pnt.y);
+
+            try
+            {
+                //Уазываем данные ПГ
+                shp.get_Cells("Prop.WTAdress").FormulaU = DrawTools.StringToFormulaForString(ews_Data.address);
+                shp.get_Cells("Prop.WTValue").FormulaU = DrawTools.StringToFormulaForString(ews_Data.value.ToString());
+                if (ews_Data.status == 1)
+                {
+                    shp.get_Cells("LineColor").FormulaU = DrawTools.StringToFormulaForString("2");
+                    shp.get_Cells("Char.Color").FormulaU = DrawTools.StringToFormulaForString("2");
+                }
+                return shp;
+            }
+            catch (Exception)
+            {
+                return shp;
+            }
+        }
+        /// <summary>
+        /// Функция всавки новой фигуры Колодца
+        /// </summary>
+        /// <param name="pnt">координаты ИНППВ</param>
+        /// <param name="ews_Data">Объект данных ИНППВ</param>
+        /// <returns>shp - фигура ПГ</returns>
+        private Visio.Shape DropNewKolodec(DrawTools.Coordinate pnt, EWS_Data ews_Data)
+        {
+            Visio.Shape shp;
+            Visio.Master mstr;
+
+            mstr = VisioApp.Documents["Водоснабжение.vss"].Masters["Колодец"];
+            mstr.Shapes[1].get_Cells("EventDrop").FormulaU = "";  //Отключаем событие вброса для данной фигуры
+            shp = VisioApp.ActivePage.Drop(mstr.Shapes[1], pnt.x, pnt.y);
+
+            try
+            {
+                //Уазываем данные ПГ
+                shp.get_Cells("Prop.WTAdress").FormulaU = DrawTools.StringToFormulaForString(ews_Data.address);
+                if (ews_Data.status == 1)
+                {
+                    shp.get_Cells("LineColor").FormulaU = DrawTools.StringToFormulaForString("2");
+                    shp.get_Cells("Char.Color").FormulaU = DrawTools.StringToFormulaForString("2");
+                }
+                return shp;
+            }
+            catch (Exception)
+            {
+                return shp;
+            }
+        }
 
 
         #endregion Проки вбрасывания новых фигур

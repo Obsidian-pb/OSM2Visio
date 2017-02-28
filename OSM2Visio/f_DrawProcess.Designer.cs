@@ -1,16 +1,7 @@
 ﻿using System;
-//using System.Collections.Generic;
-//using System.ComponentModel;
-//using System.Data;
-//using System.Drawing;
-//using System.Linq;
-//using System.Text;
 using System.Windows.Forms;
-//using System.Xml.Linq;
-//using System.IO.Compression;
 using System.IO;
 using Ionic.Zip;
-//using System.Array;
 using Visio = Microsoft.Office.Interop.Visio;
 using Office = Microsoft.Office.Core;
 using OSM2Visio.Code.DrawData;
@@ -182,7 +173,7 @@ namespace OSM2Visio
                 //Дописываем совйства фигуры
                 TdList = node.SelectNodes("tag");
                 k = 0;
-                
+
                 //Перебираем тэги "tag" и устанавлваем все свойства
                 NeedDelete = false;
                 foreach (System.Xml.XmlNode Td in TdList)
@@ -402,18 +393,40 @@ namespace OSM2Visio
                 BldngShp = VisioApp.ActivePage.Drop(Mstr.Shapes[1], 0, 0);
                 i = BldngShp.get_RowCount(243);  //Определяем количество строк в секции visCustomProps
 
-                DrawTools.CopyCellFormula(ref shp, ref BldngShp, "Width");
-                DrawTools.CopyCellFormula(ref shp, ref BldngShp, "Height");
-                DrawTools.CopyCellFormula(ref shp, ref BldngShp, "Angle");
-                DrawTools.CopyCellFormula(ref shp, ref BldngShp, "PinX");
-                DrawTools.CopyCellFormula(ref shp, ref BldngShp, "PinY");
-                DrawTools.CopyCellFormula(ref shp, ref BldngShp, "LocPinX");
-                DrawTools.CopyCellFormula(ref shp, ref BldngShp, "LocPinY");
-                DrawTools.CopyCellFormula(ref shp, ref BldngShp, "Geometry1.X1");
-                DrawTools.CopyCellFormula(ref shp, ref BldngShp, "Geometry1.Y1");
-                DrawTools.CopyCellFormula(ref shp, ref BldngShp, "Geometry1.X2");
-                DrawTools.CopyCellFormula(ref shp, ref BldngShp, "Geometry1.Y2");
-                DrawTools.CopyCellFormula(ref shp, ref BldngShp, "Geometry1.A2");
+                if (shp.Application.Version != "16,0")
+                {
+                    DrawTools.CopyCellFormula(ref shp, ref BldngShp, "Width");
+                    DrawTools.CopyCellFormula(ref shp, ref BldngShp, "Height");
+                    DrawTools.CopyCellFormula(ref shp, ref BldngShp, "Angle");
+                    DrawTools.CopyCellFormula(ref shp, ref BldngShp, "PinX");
+                    DrawTools.CopyCellFormula(ref shp, ref BldngShp, "PinY");
+                    DrawTools.CopyCellFormula(ref shp, ref BldngShp, "LocPinX");
+                    DrawTools.CopyCellFormula(ref shp, ref BldngShp, "LocPinY");
+                    DrawTools.CopyCellFormula(ref shp, ref BldngShp, "Geometry1.X1");
+                    DrawTools.CopyCellFormula(ref shp, ref BldngShp, "Geometry1.Y1");
+                    DrawTools.CopyCellFormula(ref shp, ref BldngShp, "Geometry1.X2");
+                    DrawTools.CopyCellFormula(ref shp, ref BldngShp, "Geometry1.Y2");
+                    DrawTools.CopyCellFormula(ref shp, ref BldngShp, "Geometry1.A2");
+                }
+                else
+                {
+                    DrawTools.CopyCellFormula(ref shp, ref BldngShp, "Width");
+                    DrawTools.CopyCellFormula(ref shp, ref BldngShp, "Height");
+                    DrawTools.CopyCellFormula(ref shp, ref BldngShp, "Angle");
+                    DrawTools.CopyCellFormula(ref shp, ref BldngShp, "PinX");
+                    DrawTools.CopyCellFormula(ref shp, ref BldngShp, "PinY");
+                    DrawTools.CopyCellFormula(ref shp, ref BldngShp, "LocPinX");
+                    DrawTools.CopyCellFormula(ref shp, ref BldngShp, "LocPinY");
+
+                    //Здесь обязательно что-нибудь подумать!!!
+                    BldngShp.get_Cells("Geometry1.X1").FormulaU = DrawTools.StringToFormulaForString("Width*" + shp.get_Cells("Geometry1.X1").get_ResultStr(0));
+                    BldngShp.get_Cells("Geometry1.Y1").FormulaU = DrawTools.StringToFormulaForString("Height*" + shp.get_Cells("Geometry1.Y1").get_ResultStr(0));
+                    //DrawTools.CopyCellFormula(ref shp, ref BldngShp, "Geometry1.X1");
+                    //DrawTools.CopyCellFormula(ref shp, ref BldngShp, "Geometry1.Y1");
+                    DrawTools.CopyCellFormula(ref shp, ref BldngShp, "Geometry1.X2");
+                    DrawTools.CopyCellFormula(ref shp, ref BldngShp, "Geometry1.Y2");
+                    DrawTools.CopyCellFormula(ref shp, ref BldngShp, "Geometry1.A2");
+                }
 
                 //Указываем свойства здания
                 foreach (System.Xml.XmlNode Td in TdList)

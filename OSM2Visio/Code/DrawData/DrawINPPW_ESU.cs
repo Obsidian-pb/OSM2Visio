@@ -116,6 +116,7 @@ namespace OSM2Visio
                         drawForm.SetProgressBarCurrentValue(i);
                         i++;
                     }
+                    Application.DoEvents();
                 }
             }
             catch (Exception)

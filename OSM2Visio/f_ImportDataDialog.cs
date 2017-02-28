@@ -88,13 +88,9 @@ namespace OSM2Visio
                 string EWS_DataFilePath = TB_EWSPath.Text;
 
                 //Закрываем текущую форму
-                //this.Close();
-                //this.Dispose();
                 this.Hide();
 
                 //Создаем экземпляр формы процесса отрисовки
-                //f_DrawProcess v_ProcessForm = new f_DrawProcess();
-                //v_ProcessForm.Pv_Draw(VisApp, OSMData, CB_EWSSource.SelectedIndex, EWS_DataFilePath);
 
                 ThisAddIn.drawProcessForm.Pv_Draw(VisApp, OSMData, CB_EWSSource.SelectedIndex, EWS_DataFilePath);
             }
@@ -109,8 +105,6 @@ namespace OSM2Visio
         private void B_Cancel_Click(object sender, EventArgs e)
         {
             //Закрываем текущую форму
-            //this.Close();
-            //this.Dispose();
             this.Hide();
         }
 

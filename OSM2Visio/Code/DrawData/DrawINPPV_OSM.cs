@@ -52,42 +52,43 @@ namespace OSM2Visio.Code.DrawData
         /// </summary>
         public void DrawData()
         {
-                    //---Получаем список узлов с перечислением node
-                    NodesList = Data.SelectNodes("//node");
-                    //---Указываем максимальное значение процессбара
-                    drawForm.Text = "Расставляются водоисточники";
-                    drawForm.SetProgressbarMaximum(NodesList.Count);
-                    i = 0; // startValue;
-                    MessageBox.Show("Расставляются водоисточники");
-                    DrawTools.Coordinate pnt; pnt.x = 0; pnt.y = 0;
+            //---Получаем список узлов с перечислением node
+            NodesList = Data.SelectNodes("//node");
+            //---Указываем максимальное значение процессбара
+            drawForm.Text = "Расставляются водоисточники";
+            drawForm.SetProgressbarMaximum(NodesList.Count);
+            i = 0; // startValue;
+            MessageBox.Show("Расставляются водоисточники");
+            DrawTools.Coordinate pnt; pnt.x = 0; pnt.y = 0;
                     
-                    //---Перебираем все узлы node в списке NodeList
-                    foreach (System.Xml.XmlNode node in NodesList)
+            //---Перебираем все узлы node в списке NodeList
+            foreach (System.Xml.XmlNode node in NodesList)
+            {
+                if (node.ChildNodes.Count > 0)
+                {
+                    TdList = node.SelectNodes("tag");  //список узлов с описанием
+                    foreach (System.Xml.XmlNode Td in TdList)
                     {
-                        if (node.ChildNodes.Count > 0)
+                        if (Td.Attributes["k"].InnerText == "emergency")
                         {
-                            TdList = node.SelectNodes("tag");  //список узлов с описанием
-                            foreach (System.Xml.XmlNode Td in TdList)
-                            {
-                                if (Td.Attributes["k"].InnerText == "emergency")
-                                {
-                                    //Получаем координаты точки где необходимо вставить ИНППВ
-                                    DrawTools.GetPosition(node.Attributes["id"].InnerText, ref Data, ref x, ref y);
+                            //Получаем координаты точки где необходимо вставить ИНППВ
+                            DrawTools.GetPosition(node.Attributes["id"].InnerText, ref Data, ref x, ref y);
 
-                                    //Получаем координату относительно края области (в дюймах - все в дюймах)
-                                    XPos = (x - v_Box.XY1.x);   YPos = (y - v_Box.XY1.y);
-                                    pnt.x = XPos * InchInGradH; pnt.y = YPos * InchInGradV;
+                            //Получаем координату относительно края области (в дюймах - все в дюймах)
+                            XPos = (x - v_Box.XY1.x);   YPos = (y - v_Box.XY1.y);
+                            pnt.x = XPos * InchInGradH; pnt.y = YPos * InchInGradV;
                            
-                                    //Создаем новый ИНППВ, согласно указанным в node координатам
-                                    CreateEWS_OSM(ref VisioApp, TdList, Td.Attributes["v"].InnerText, pnt);
-                                }
-                            }
-
+                            //Создаем новый ИНППВ, согласно указанным в node координатам
+                            CreateEWS_OSM(ref VisioApp, TdList, Td.Attributes["v"].InnerText, pnt);
                         }
-
-                        drawForm.SetProgressBarCurrentValue(i);
-                        i++;
                     }
+
+                }
+
+                drawForm.SetProgressBarCurrentValue(i);
+                i++;
+                Application.DoEvents();
+            }
         }
 
 
