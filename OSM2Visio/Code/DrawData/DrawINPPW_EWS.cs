@@ -76,30 +76,25 @@ namespace OSM2Visio
                     connectionCommand.CommandText += "EWS_Value, EWS_PACount, EWS_Status,  EWS_PKDiameter ";
                     connectionCommand.CommandText += "FROM Streets LEFT JOIN EWSs ON Streets.Street_ID = EWSs.EWS_Street_COD ";
                     connectionCommand.CommandText += "WHERE (EWSs.EWS_GeoCoord_X<>0) AND (EWSs.EWS_GeoCoord_Y<>0);";
-                    //MessageBox.Show(connectionCommand.CommandText);
                     OleDbDataReader dbReader = connectionCommand.ExecuteReader();
 
-                        //---Указываем максимальное значение процессбара
-                        //foreach (System.Xml.XmlNode node in dbReader.)
-                        //{
-                        //    if (node.Name == "Placemark") i++;
-                        //}
+                    //---Указываем максимальное значение процессбара
+                    i = 0;
+                    while (dbReader.Read()) i++; dbReader.Close();
+                    drawForm.SetProgressbarMaximum(i);
+                    dbReader = connectionCommand.ExecuteReader();
 
                     drawForm.Text = "Расставляются водоисточники";
                     i = 0; // startValue;
                     MessageBox.Show("Расставляются водоисточники");
                     DrawTools.Coordinate pnt; pnt.x = 0; pnt.y = 0;
 
-
+                    i = 0;
                     //Читаем строки из запроса и на их основе формируем данные для отрисовки ИНППВ
                     while (dbReader.Read())
                     {
-                        //MessageBox.Show(Convert.ToString(dbReader["EWS_GeoCoord_X"]));
-
                         //---Получаем данные из записи
                         //Получаем координаты точки где необходимо вставить ИНППВ
-                        //x = DrawTools.pf_StrToDbl(dbReader["EWS_GeoCoord_X"].ToString());
-                        //y = DrawTools.pf_StrToDbl(dbReader["EWS_GeoCoord_Н"].ToString());
                         x = dbReader.GetDouble(0);  //"EWS_GeoCoord_X"
                         y = dbReader.GetDouble(1);  //"EWS_GeoCoord_Y"
 
@@ -109,37 +104,28 @@ namespace OSM2Visio
                         XPos = (x - v_Box.XY1.x); YPos = (y - v_Box.XY1.y);
                         pnt.x = XPos * InchInGradH; pnt.y = YPos * InchInGradV;
 
-                        i = 0;
+                        
                         //Проверяем входит ли координата в прямоугольник карты
                         if (DrawTools.checkForBox(pnt2, v_Box))
                         {
-                            
-                            ews_Data.address = dbReader.GetString(2) + " " + dbReader.GetString(3); s=2; //---Адрес
-                            ews_Data.INPPW_Type = dbReader.GetInt32(4); s=4; //---Тип ИНППВ
-                            ews_Data.pipeType = dbReader.GetByte(6); s=6; //---Водовод
-                            ews_Data.pipeDiameter = dbReader.GetInt16(7); s=7;
-                            ews_Data.number = dbReader.GetString(5); s=5; //---Номер
-                            ews_Data.value = dbReader.GetInt32(8);  s=8; //---Общий показатель (объем воды)
-                            ews_Data.PACount = dbReader.GetByte(9); s=9; //---Кол-во ПА
-                            ews_Data.status = dbReader.GetInt32(10); s=10; //---Статус
-                            ews_Data.PKDiameter = dbReader.GetInt32(11); s=11; //---Статус
-
+                            //MessageBox.Show(i.ToString());
+                            //MessageBox.Show(" - " + dbReader.GetString(2) + " " + GetStringData(dbReader, 3));  //dbReader.GetString(3));
+                            ews_Data.address = GetStringData(dbReader, 2) + " " + GetStringData(dbReader, 3); s = 2; //---Адрес
+                            ews_Data.INPPW_Type = GetInt32Data(dbReader, 4); s = 4; //---Тип ИНППВ
+                            ews_Data.pipeType = GetByteData(dbReader, 6); s = 6; //---Водовод
+                            ews_Data.pipeDiameter = GetInt16Data(dbReader, 7); s = 7;
+                            ews_Data.number = GetStringData(dbReader, 5); s = 5; //---Номер
+                            ews_Data.value = GetInt32Data(dbReader, 8); s = 8; //---Общий показатель (объем воды)
+                            ews_Data.PACount = GetByteData(dbReader, 9); s = 9; //---Кол-во ПА
+                            ews_Data.status = GetInt32Data(dbReader, 10); s = 10; //---Статус
+                            ews_Data.PKDiameter = GetInt32Data(dbReader, 11); s = 11; //---Статус
                             //Создаем новый ИНППВ, согласно указанным в координатам, и передаем в него собранные данные
                             CreateEWS_EWS(ref VisioApp, pnt, ews_Data);
-                            s=0;
-                            i++;
+                            //s=0;
                         }
-
-                        //            drawForm.SetProgressBarCurrentValue(i);
-                        //            i++;
-                        //        }
-
-
-
-
-
-
-
+                        
+                        i++;
+                        drawForm.SetProgressBarCurrentValue(i);
                     }
 
                     //Закрываем соединение
@@ -187,6 +173,26 @@ namespace OSM2Visio
             {
                 return false;
             }
+        }
+        private string GetStringData(OleDbDataReader _Reader, int fieldIndex)
+        {
+            try {return _Reader.GetString(fieldIndex); }
+            catch (Exception) { return ""; }
+        }
+        private int GetInt16Data(OleDbDataReader _Reader, int fieldIndex)
+        {
+            try { return _Reader.GetInt16(fieldIndex); }
+            catch (Exception) { return 0; }
+        }
+        private int GetInt32Data(OleDbDataReader _Reader, int fieldIndex)
+        {
+            try { return _Reader.GetInt32(fieldIndex); }
+            catch (Exception) { return 0; }
+        }
+        private byte GetByteData(OleDbDataReader _Reader, int fieldIndex)
+        {
+            try { return _Reader.GetByte(fieldIndex); }
+            catch (Exception) { return 0; }
         }
         #endregion -------------------------------------------Работа с БД--------------------------------------------
 
