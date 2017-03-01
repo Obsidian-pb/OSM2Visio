@@ -84,7 +84,7 @@ namespace OSM2Visio
         //---------------------------Внешние проки формы
         //Основная прока отрисовки зданий из OSM, Получает XMLDocument документ с данными из файла
         public void Pv_Draw(Microsoft.Office.Interop.Visio.Application VisioApp,
-            System.Xml.XmlDocument Data , int INPPVSourceIndex, string EWSFilePath)
+            System.Xml.XmlDocument Data , int INPPVSourceIndex, string EWSFilePath, int importType)
         {
             //Переменные для работы
             System.Xml.XmlNodeList NodesList;
@@ -106,9 +106,9 @@ namespace OSM2Visio
 
             Boolean NeedDelete; //Флаг необходимости удаления исходной фигуры
 
-            int i;
-            int j;
-            short k;
+            int i=0;
+            int j=0;
+            short k=0;
 
             //---Собственно прока
             //---Показываем форму
@@ -135,114 +135,122 @@ namespace OSM2Visio
             this.Focus();
             this.Top = 200; this.Left = 400;
 
-            //---Получаем узел с перечислением Way
-            NodesList = Data.SelectNodes("//way");
-            //---Указываем максимальное значение процессбара
-            this.Text = "Импортируются фигуры";
-            this.PrB_DrawProcess.Maximum = NodesList.Count;
-            i = 0;
-
-            //---Перебираем все узлы way в списке NodeList
-            foreach (System.Xml.XmlNode node in NodesList)
-            {
-                NdList = node.SelectNodes("nd");  //список узлов с координатами точек
-                //Массив для хранения точек для отрисовки зданий
-                Array pnts = Array.CreateInstance(typeof(Double), NdList.Count * 2); ;  //-1
-                
-                j = 0;
-                //---Перебираем все узлы в списке NdList
-                foreach (System.Xml.XmlNode Nd in NdList)
+            if (importType == 0 || importType == 1)
                 {
-                    this.PrB_DrawProcess.Value = i;
+                //---Получаем узел с перечислением Way
+                NodesList = Data.SelectNodes("//way");
+                //---Указываем максимальное значение процессбара
+                this.Text = "Импортируются фигуры";
+                this.PrB_DrawProcess.Maximum = NodesList.Count;
+                i = 0;
 
-                    DrawTools.GetPosition(Nd.Attributes["ref"].InnerText, ref Data, ref x, ref y);
-                    
-                    //Получаем координату относительно края области (в дюймах - все в дюймах)
-                    XPos = (x - v_Box.XY1.x);
-                    YPos = (y - v_Box.XY1.y);
-                    
-                    //Заполянем очередную точку в массиве
-                    pnts.SetValue(XPos * InchInGradH, j);
-                    pnts.SetValue(YPos * InchInGradV, j + 1);
-                    
-                    j = j + 2;
-                }
-                //Рисуем фигуру по полученному массиву точек
-                shp = VisioApp.ActivePage.DrawPolyline(ref pnts, 0);
-
-                //Дописываем совйства фигуры
-                TdList = node.SelectNodes("tag");
-                k = 0;
-
-                //Перебираем тэги "tag" и устанавлваем все свойства
-                NeedDelete = false;
-                foreach (System.Xml.XmlNode Td in TdList)
+                //---Перебираем все узлы way в списке NodeList
+                foreach (System.Xml.XmlNode node in NodesList)
                 {
-                    //В зависимости от того, что за объект - определяем его свойства 
-                    //и необходимость удаления исходной геометрии
-                    if (Td.Attributes["k"].InnerText == "building")
-                    {
-                        CreateCorrectBuilding(ref VisioApp, ref shp, TdList);
-                        NeedDelete = true;
-                    }
-                    if (Td.Attributes["k"].InnerText == "highway")
-                    {
-                        CreateCorrectRoad(ref VisioApp, ref shp, TdList);
-                        NeedDelete = true;
-                    }
-                    if (Td.Attributes["k"].InnerText == "landuse")
-                    {
-                        CreateCorrectLandUse(ref VisioApp, ref shp, TdList);
-                        NeedDelete = false;
-                    }
-                    if (Td.Attributes["k"].InnerText == "leisure")
-                    {
-                        CreateCorrectLeisure(ref VisioApp, ref shp, TdList);
-                        NeedDelete = false;
-                    }
-                    if (Td.Attributes["k"].InnerText == "barrier")
-                    {
-                        DrawTools.PolyLineToLine(ref shp);
-                        CreateCorrectBorder(ref VisioApp, ref shp, TdList);
-                        NeedDelete = false;
-                    }
-                    Application.DoEvents();
+                    NdList = node.SelectNodes("nd");  //список узлов с координатами точек
+                    //Массив для хранения точек для отрисовки зданий
+                    Array pnts = Array.CreateInstance(typeof(Double), NdList.Count * 2); ;  //-1
 
-                    k++;
+                    j = 0;
+                    //---Перебираем все узлы в списке NdList
+                    foreach (System.Xml.XmlNode Nd in NdList)
+                    {
+                        this.PrB_DrawProcess.Value = i;
+
+                        DrawTools.GetPosition(Nd.Attributes["ref"].InnerText, ref Data, ref x, ref y);
+
+                        //Получаем координату относительно края области (в дюймах - все в дюймах)
+                        XPos = (x - v_Box.XY1.x);
+                        YPos = (y - v_Box.XY1.y);
+
+                        //Заполянем очередную точку в массиве
+                        pnts.SetValue(XPos * InchInGradH, j);
+                        pnts.SetValue(YPos * InchInGradV, j + 1);
+
+                        j = j + 2;
+                    }
+                    //Рисуем фигуру по полученному массиву точек
+                    shp = VisioApp.ActivePage.DrawPolyline(ref pnts, 0);
+
+                    //Дописываем совйства фигуры
+                    TdList = node.SelectNodes("tag");
+                    k = 0;
+
+                    //Перебираем тэги "tag" и устанавлваем все свойства
+                    NeedDelete = false;
+                    foreach (System.Xml.XmlNode Td in TdList)
+                    {
+                        //В зависимости от того, что за объект - определяем его свойства 
+                        //и необходимость удаления исходной геометрии
+                        if (Td.Attributes["k"].InnerText == "building")
+                        {
+                            CreateCorrectBuilding(ref VisioApp, ref shp, TdList);
+                            NeedDelete = true;
+                        }
+                        if (Td.Attributes["k"].InnerText == "highway")
+                        {
+                            CreateCorrectRoad(ref VisioApp, ref shp, TdList);
+                            NeedDelete = true;
+                        }
+                        if (Td.Attributes["k"].InnerText == "landuse")
+                        {
+                            CreateCorrectLandUse(ref VisioApp, ref shp, TdList);
+                            NeedDelete = false;
+                        }
+                        if (Td.Attributes["k"].InnerText == "leisure")
+                        {
+                            CreateCorrectLeisure(ref VisioApp, ref shp, TdList);
+                            NeedDelete = false;
+                        }
+                        if (Td.Attributes["k"].InnerText == "barrier")
+                        {
+                            if (shp.Application.Version == "16,0")
+                                DrawTools.PolyLineToLine16(ref shp);
+                            else
+                                DrawTools.PolyLineToLine(ref shp);
+                            CreateCorrectBorder(ref VisioApp, ref shp, TdList);
+                            NeedDelete = false;
+                        }
+                        Application.DoEvents();
+
+                        k++;
+                    }
+                    if (NeedDelete)
+                        shp.Delete();
+                    i++;
                 }
-                if (NeedDelete)
-                    shp.Delete();
-                i++;
             }
 
-            //В зависимости от типа выбранного источника данных по ИНППВ выполняем импорт
-            switch (INPPVSourceIndex)
+            if (importType == 2)
             {
-                case 0:   //Файл данных OSM
-                    DrawINPPV_OSM INPPv_OSM = new DrawINPPV_OSM(VisioApp, Data, this, v_Box);
-                    INPPv_OSM.DrawData();
-                    INPPv_OSM = null;
-                    break;
-                case 1:  //Файл БД EWS
-                    DrawINPPW_EWS INPPW_EWS = new DrawINPPW_EWS(VisioApp, EWSFilePath, this, v_Box);
-                    INPPW_EWS.DrawData();
-                    INPPW_EWS = null;
-                    break;
-                case 2:  //Файл строки подключения к БД
+                //В зависимости от типа выбранного источника данных по ИНППВ выполняем импорт
+                switch (INPPVSourceIndex)
+                {
+                    case 0:   //Файл данных OSM
+                        DrawINPPV_OSM INPPv_OSM = new DrawINPPV_OSM(VisioApp, Data, this, v_Box);
+                        INPPv_OSM.DrawData();
+                        INPPv_OSM = null;
+                        break;
+                    case 1:  //Файл БД EWS
+                        DrawINPPW_EWS INPPW_EWS = new DrawINPPW_EWS(VisioApp, EWSFilePath, this, v_Box);
+                        INPPW_EWS.DrawData();
+                        INPPW_EWS = null;
+                        break;
+                    case 2:  //Файл строки подключения к БД
 
-                    break;
-                case 3:  //Файл данных ЭСУ ППВ
-                    //Получаем документ XML со сведенями о ИНППВ
-                    System.Xml.XmlDocument INPPW_Data = GetKML(EWSFilePath);
-                    DrawINPPW_ESU INPPW_ESU = new DrawINPPW_ESU(VisioApp, INPPW_Data, this, v_Box);
-                    INPPW_ESU.DrawData();
-                    INPPW_ESU = null;
-                    break;
-                default:
+                        break;
+                    case 3:  //Файл данных ЭСУ ППВ
+                        //Получаем документ XML со сведенями о ИНППВ
+                        System.Xml.XmlDocument INPPW_Data = GetKML(EWSFilePath);
+                        DrawINPPW_ESU INPPW_ESU = new DrawINPPW_ESU(VisioApp, INPPW_Data, this, v_Box);
+                        INPPW_ESU.DrawData();
+                        INPPW_ESU = null;
+                        break;
+                    default:
 
-                    break;
+                        break;
+                }
             }
-
 
 
 
@@ -250,7 +258,8 @@ namespace OSM2Visio
             LayersFix(ref VisioApp);
 
             //Отчет о завршении
-            MessageBox.Show("Отрисовано " + i.ToString() + " объектов");
+            if (importType == 0 || importType == 1)
+                MessageBox.Show("Отрисовано " + i.ToString() + " объектов");
             this.B_OK.Enabled = true;
 
         }
@@ -290,10 +299,28 @@ namespace OSM2Visio
                 DrawTools.CopyCellFormula(ref shp, ref BcgndShp, "PinY");
                 DrawTools.CopyCellFormula(ref shp, ref BcgndShp, "LocPinX");
                 DrawTools.CopyCellFormula(ref shp, ref BcgndShp, "LocPinY");
-                DrawTools.CopyCellFormula(ref shp, ref BcgndShp, "Geometry1.X1");
-                DrawTools.CopyCellFormula(ref shp, ref BcgndShp, "Geometry1.Y1");
-                DrawTools.CopyCellFormula(ref shp, ref BcgndShp, "Geometry1.X2");
-                DrawTools.CopyCellFormula(ref shp, ref BcgndShp, "Geometry1.Y2");
+                if (shp.Application.Version == "16,0")
+                {
+                    BcgndShp.get_Cells("Geometry1.X1").FormulaU = DrawTools.StringToFormulaForString("Width*" + shp.get_Cells("Geometry1.X1").get_Result(Microsoft.Office.Interop.Visio.tagVisUnitCodes.visNumber));
+                    BcgndShp.get_Cells("Geometry1.Y1").FormulaU = DrawTools.StringToFormulaForString("Height*" + shp.get_Cells("Geometry1.Y1").get_Result(Microsoft.Office.Interop.Visio.tagVisUnitCodes.visNumber));
+                    if (shp.get_RowType((short)Microsoft.Office.Interop.Visio.tagVisSectionIndices.visSectionFirstComponent, (short)2) == 193)
+                    {   //Если полилайн, то привязываем по абсолютному значению
+                        DrawTools.CopyCellFormula(ref shp, ref BcgndShp, "Geometry1.X2");
+                        DrawTools.CopyCellFormula(ref shp, ref BcgndShp, "Geometry1.Y2");
+                    }
+                    else
+                    {   //Если просто линия, то привязываем через относительное значение
+                        BcgndShp.get_Cells("Geometry1.X2").FormulaU = DrawTools.StringToFormulaForString("Width*" + shp.get_Cells("Geometry1.X2").get_Result(Microsoft.Office.Interop.Visio.tagVisUnitCodes.visNumber));
+                        BcgndShp.get_Cells("Geometry1.Y2").FormulaU = DrawTools.StringToFormulaForString("Height*" + shp.get_Cells("Geometry1.Y2").get_Result(Microsoft.Office.Interop.Visio.tagVisUnitCodes.visNumber));
+                    }
+                }
+                else
+                {
+                    DrawTools.CopyCellFormula(ref shp, ref BcgndShp, "Geometry1.X1");
+                    DrawTools.CopyCellFormula(ref shp, ref BcgndShp, "Geometry1.Y1");
+                    DrawTools.CopyCellFormula(ref shp, ref BcgndShp, "Geometry1.X2");
+                    DrawTools.CopyCellFormula(ref shp, ref BcgndShp, "Geometry1.Y2");
+                }
                 DrawTools.CopyCellFormula(ref shp, ref BcgndShp, "Geometry1.A2");
 
                 //Получаем все свойства для данного объекта
@@ -393,8 +420,6 @@ namespace OSM2Visio
                 BldngShp = VisioApp.ActivePage.Drop(Mstr.Shapes[1], 0, 0);
                 i = BldngShp.get_RowCount(243);  //Определяем количество строк в секции visCustomProps
 
-                if (shp.Application.Version != "16,0")
-                {
                     DrawTools.CopyCellFormula(ref shp, ref BldngShp, "Width");
                     DrawTools.CopyCellFormula(ref shp, ref BldngShp, "Height");
                     DrawTools.CopyCellFormula(ref shp, ref BldngShp, "Angle");
@@ -402,31 +427,19 @@ namespace OSM2Visio
                     DrawTools.CopyCellFormula(ref shp, ref BldngShp, "PinY");
                     DrawTools.CopyCellFormula(ref shp, ref BldngShp, "LocPinX");
                     DrawTools.CopyCellFormula(ref shp, ref BldngShp, "LocPinY");
-                    DrawTools.CopyCellFormula(ref shp, ref BldngShp, "Geometry1.X1");
-                    DrawTools.CopyCellFormula(ref shp, ref BldngShp, "Geometry1.Y1");
+                    if (shp.Application.Version == "16,0")
+                    {
+                        BldngShp.get_Cells("Geometry1.X1").FormulaU = DrawTools.StringToFormulaForString("Width*" + shp.get_Cells("Geometry1.X1").get_ResultStr(0));
+                        BldngShp.get_Cells("Geometry1.Y1").FormulaU = DrawTools.StringToFormulaForString("Height*" + shp.get_Cells("Geometry1.Y1").get_ResultStr(0));
+                    }
+                    else
+                    {
+                        DrawTools.CopyCellFormula(ref shp, ref BldngShp, "Geometry1.X1");
+                        DrawTools.CopyCellFormula(ref shp, ref BldngShp, "Geometry1.Y1");
+                    }
                     DrawTools.CopyCellFormula(ref shp, ref BldngShp, "Geometry1.X2");
                     DrawTools.CopyCellFormula(ref shp, ref BldngShp, "Geometry1.Y2");
                     DrawTools.CopyCellFormula(ref shp, ref BldngShp, "Geometry1.A2");
-                }
-                else
-                {
-                    DrawTools.CopyCellFormula(ref shp, ref BldngShp, "Width");
-                    DrawTools.CopyCellFormula(ref shp, ref BldngShp, "Height");
-                    DrawTools.CopyCellFormula(ref shp, ref BldngShp, "Angle");
-                    DrawTools.CopyCellFormula(ref shp, ref BldngShp, "PinX");
-                    DrawTools.CopyCellFormula(ref shp, ref BldngShp, "PinY");
-                    DrawTools.CopyCellFormula(ref shp, ref BldngShp, "LocPinX");
-                    DrawTools.CopyCellFormula(ref shp, ref BldngShp, "LocPinY");
-
-                    //Здесь обязательно что-нибудь подумать!!!
-                    BldngShp.get_Cells("Geometry1.X1").FormulaU = DrawTools.StringToFormulaForString("Width*" + shp.get_Cells("Geometry1.X1").get_ResultStr(0));
-                    BldngShp.get_Cells("Geometry1.Y1").FormulaU = DrawTools.StringToFormulaForString("Height*" + shp.get_Cells("Geometry1.Y1").get_ResultStr(0));
-                    //DrawTools.CopyCellFormula(ref shp, ref BldngShp, "Geometry1.X1");
-                    //DrawTools.CopyCellFormula(ref shp, ref BldngShp, "Geometry1.Y1");
-                    DrawTools.CopyCellFormula(ref shp, ref BldngShp, "Geometry1.X2");
-                    DrawTools.CopyCellFormula(ref shp, ref BldngShp, "Geometry1.Y2");
-                    DrawTools.CopyCellFormula(ref shp, ref BldngShp, "Geometry1.A2");
-                }
 
                 //Указываем свойства здания
                 foreach (System.Xml.XmlNode Td in TdList)
@@ -596,8 +609,6 @@ namespace OSM2Visio
         {
             try
             {
-                //Visio.Cell ShpCell;
-                //short i;
 
                 //Получаем все свойства для данного объекта
                 foreach (System.Xml.XmlNode Td in TdList)
@@ -605,7 +616,7 @@ namespace OSM2Visio
                     switch (Td.Attributes["k"].InnerText)
                     {
                         case "landuse":
-                            //определяем что за дорога и в соответствии с этим указываем ее ширину
+                            //определяем что это и в соотвествии с этим указываем данные
                             switch (Td.Attributes["v"].InnerText)
                             {
                                 case "residential":
@@ -774,7 +785,7 @@ namespace OSM2Visio
                     switch (Td.Attributes["k"].InnerText)
                     {
                         case "barrier":
-                            //определяем что за дорога и в соответствии с этим указываем ее ширину
+                            //определяем что за барьер
                             switch (Td.Attributes["v"].InnerText)
                             {
                                 case "fence":
@@ -848,7 +859,7 @@ namespace OSM2Visio
             }
             catch (Exception err)
             {
-                MessageBox.Show(err.Message);
+                //MessageBox.Show(err.Message);
                 //throw;
             }
         }

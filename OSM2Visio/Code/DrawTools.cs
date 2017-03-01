@@ -343,6 +343,103 @@ namespace OSM2Visio
                 throw;
             }
         }
+        /// <summary>
+        /// Прока обращает фигуру нарисованную при помощи метода PolylineTo
+        /// в фигуру нарисованную при помощи метода LineTo
+        /// ДЛЯ VISO 2016
+        /// </summary>
+        /// <param name="VisioApp">Активное приложение Visio</param>
+        /// <param name="shp">Фигура</param>
+        static public void PolyLineToLine16(ref Visio.Shape shp)
+        {
+            string PolyLineString;
+            int i;
+            short rowIndex = 2;
+            double[] startShapeData = new double[4];
+            string[] cellsFormulas = new string[2];
+
+            try
+            {
+                //0 - Если фигура и так LineTo - выходим без изменений
+                if (shp.get_RowType(10, 2) == 139 || shp.get_RowType(10, 2) == 239)
+                    return;
+
+                //0++ - сохраняем стартовое состояние фигуры
+                startShapeData[0] = shp.get_Cells("Width").get_Result(Microsoft.Office.Interop.Visio.tagVisUnitCodes.visMeters);
+                startShapeData[1] = shp.get_Cells("Height").get_Result(Microsoft.Office.Interop.Visio.tagVisUnitCodes.visMeters);
+                startShapeData[2] = shp.get_Cells("PinX").get_Result(Microsoft.Office.Interop.Visio.tagVisUnitCodes.visMeters);
+                startShapeData[3] = shp.get_Cells("PinY").get_Result(Microsoft.Office.Interop.Visio.tagVisUnitCodes.visMeters);
+                cellsFormulas[0] = shp.get_Cells("Geometry1.X2").Formula;
+                cellsFormulas[1] = shp.get_Cells("Geometry1.Y2").Formula;
+
+                //1 - сохраняем стартовые значения X.1 Y.1 для их использования в заключении
+                string X1 = shp.get_Cells("Geometry1.X1").Formula;    //.get_ResultStr(0);
+                string Y1 = shp.get_Cells("Geometry1.Y1").Formula;    //.get_ResultStr(0);
+
+                //2 - получить строку с описанием линии
+                PolyLineString = shp.get_Cells("Geometry1.A2").get_ResultStr(0) + ";";
+                PolyLineString = PolyLineString.Replace("POLYLINE(", ""); PolyLineString = PolyLineString.Replace(")", "");
+
+                //3 - Копируем значения второй строки в первую   
+                //Отслеживаем циклическую ссылку
+                //Для 2016 - не требуется!
+
+                //4 - Удаляем вторую строки
+                shp.DeleteRow(10, 2);
+                ////4++ - Восстанавливаем высоту фигуры
+                shp.set_RowType((short)Microsoft.Office.Interop.Visio.tagVisSectionIndices.visSectionFirstComponent, (short)1, (short)138);
+                shp.get_Cells("Geometry1.X1").Formula = cellsFormulas[0];
+                shp.get_Cells("Geometry1.Y1").Formula = cellsFormulas[1];
+                shp.get_Cells("Width").Formula = startShapeData[0].ToString() + " m";
+                shp.get_Cells("Height").Formula = startShapeData[1].ToString() + " m";
+                //MessageBox.Show("123");
+
+                //5 - ОСНОВНАЯ  - создаем и заполняем строки по PolyLineString, в обратном порядке
+                for (i = GetItemsCount(PolyLineString); i > 2; i -= 2)
+                {
+                    //5-1 Создаем новую строку
+                    shp.AddRow(10, rowIndex, 0);
+                    shp.set_RowType(10, rowIndex, 139);
+                    shp.get_Cells("Width").Formula = startShapeData[0].ToString() + " m";
+                    shp.get_Cells("Height").Formula = startShapeData[1].ToString() + " m";
+
+                    //5-2 Заполняем для нее свойства
+                    //MessageBox.Show("Width*" + GetStrByIndex(PolyLineString, i - 1).ToString() + " Height*" + GetStrByIndex(PolyLineString, i).ToString());
+                    shp.get_CellsSRC(10, rowIndex, 0).Formula = "Width*" + GetStrByIndex(PolyLineString, i - 1).ToString();
+                    shp.get_CellsSRC(10, rowIndex, 1).Formula = "Height*" + GetStrByIndex(PolyLineString, i).ToString();
+
+                    rowIndex++;
+                }
+
+                //6 - создаем последнюю строку
+                //6-1 Создаем новую строку
+                shp.AddRow(10, rowIndex, 0);
+                shp.set_RowType(10, rowIndex, 139);
+
+                //6-2 Заполняем для нее свойства
+                shp.get_CellsSRC(10, rowIndex, 0).Formula = X1;
+                shp.get_CellsSRC(10, rowIndex, 1).Formula = Y1;
+
+                //7 - Восстанавливаем исходные свойства фигуры
+                //---Собственно восстановление
+                //MessageBox.Show(cellsFormulas[0] + " : " + cellsFormulas[1]);
+                shp.get_Cells("Geometry1.X1").Formula = cellsFormulas[0];
+                shp.get_Cells("Geometry1.Y1").Formula = cellsFormulas[1];
+                //---Повторно задаем значения для второй строки
+                shp.get_Cells("Geometry1.X2").Formula = "Width*" + GetStrByIndex(PolyLineString, GetItemsCount(PolyLineString) - 1).ToString();
+                shp.get_Cells("Geometry1.Y2").Formula = "Height*" + GetStrByIndex(PolyLineString, GetItemsCount(PolyLineString)).ToString();
+
+                shp.get_Cells("Width").Formula = startShapeData[0].ToString() + " m";
+                shp.get_Cells("Height").Formula = startShapeData[1].ToString() + " m";
+                shp.get_Cells("PinX").Formula = startShapeData[2].ToString() + " m";
+                shp.get_Cells("PinY").Formula = startShapeData[3].ToString() + " m";
+            }
+            catch (Exception err)
+            {
+                MessageBox.Show(err.Message);
+                throw;
+            }
+        }
 
         /// <summary>
         /// Прока возвращает Double значение строки с разделителем ";"

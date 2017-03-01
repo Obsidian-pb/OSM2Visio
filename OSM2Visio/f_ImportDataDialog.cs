@@ -19,6 +19,9 @@ namespace OSM2Visio
         public f_ImportDataDialog()
         {
             InitializeComponent();
+
+            CB_EWSSource.SelectedIndex = 0;
+            cb_ImportType.SelectedIndex = 0;
         }
 
         private void B_Search_Click(object sender, EventArgs e)
@@ -69,7 +72,8 @@ namespace OSM2Visio
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            MessageBox.Show("Открывается окно со справкой по OSM");
+            OSM_Help osmHelpForm = new OSM_Help();
+            osmHelpForm.Show();
         }
 
         private void B_OK_Click(object sender, EventArgs e)
@@ -91,8 +95,7 @@ namespace OSM2Visio
                 this.Hide();
 
                 //Создаем экземпляр формы процесса отрисовки
-
-                ThisAddIn.drawProcessForm.Pv_Draw(VisApp, OSMData, CB_EWSSource.SelectedIndex, EWS_DataFilePath);
+                ThisAddIn.drawProcessForm.Pv_Draw(VisApp, OSMData, CB_EWSSource.SelectedIndex, EWS_DataFilePath, cb_ImportType.SelectedIndex);
             }
             catch (Exception exc)
             {

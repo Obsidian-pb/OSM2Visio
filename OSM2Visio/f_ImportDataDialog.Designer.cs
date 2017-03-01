@@ -41,9 +41,12 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.cb_ImportType = new System.Windows.Forms.ComboBox();
             this.B_OK = new System.Windows.Forms.Button();
             this.B_Cancel = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // FD
@@ -73,7 +76,7 @@
             this.B_SearchFile.Location = new System.Drawing.Point(638, 26);
             this.B_SearchFile.Name = "B_SearchFile";
             this.B_SearchFile.Size = new System.Drawing.Size(68, 20);
-            this.B_SearchFile.TabIndex = 2;
+            this.B_SearchFile.TabIndex = 4;
             this.B_SearchFile.Text = "Обзор";
             this.B_SearchFile.UseVisualStyleBackColor = true;
             this.B_SearchFile.Click += new System.EventHandler(this.B_Search_Click);
@@ -87,11 +90,10 @@
             "EWS (на базе Access)",
             "EWS (на базе SQL Server)",
             "ЭСУ ППВ"});
-            this.CB_EWSSource.SelectedIndex = 0;
             this.CB_EWSSource.Location = new System.Drawing.Point(6, 32);
             this.CB_EWSSource.Name = "CB_EWSSource";
             this.CB_EWSSource.Size = new System.Drawing.Size(271, 21);
-            this.CB_EWSSource.TabIndex = 3;
+            this.CB_EWSSource.TabIndex = 1;
             this.CB_EWSSource.SelectedIndexChanged += new System.EventHandler(this.CB_EWSSource_SelectedIndexChanged);
             // 
             // label2
@@ -110,7 +112,7 @@
             this.TB_EWSPath.Location = new System.Drawing.Point(6, 72);
             this.TB_EWSPath.Name = "TB_EWSPath";
             this.TB_EWSPath.Size = new System.Drawing.Size(608, 20);
-            this.TB_EWSPath.TabIndex = 0;
+            this.TB_EWSPath.TabIndex = 2;
             // 
             // B_SearchEWS
             // 
@@ -118,7 +120,7 @@
             this.B_SearchEWS.Location = new System.Drawing.Point(620, 71);
             this.B_SearchEWS.Name = "B_SearchEWS";
             this.B_SearchEWS.Size = new System.Drawing.Size(68, 20);
-            this.B_SearchEWS.TabIndex = 2;
+            this.B_SearchEWS.TabIndex = 5;
             this.B_SearchEWS.Text = "Обзор";
             this.B_SearchEWS.UseVisualStyleBackColor = true;
             this.B_SearchEWS.Click += new System.EventHandler(this.B_SearchEWS_Click);
@@ -161,26 +163,50 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.cb_ImportType);
+            this.groupBox2.Controls.Add(this.label4);
             this.groupBox2.Location = new System.Drawing.Point(12, 193);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(693, 231);
+            this.groupBox2.Size = new System.Drawing.Size(693, 83);
             this.groupBox2.TabIndex = 6;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Настройки";
             // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.BackColor = System.Drawing.Color.Transparent;
+            this.label4.Location = new System.Drawing.Point(6, 24);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(95, 13);
+            this.label4.TabIndex = 2;
+            this.label4.Text = "Вариант импорта";
+            // 
+            // cb_ImportType
+            // 
+            this.cb_ImportType.FormattingEnabled = true;
+            this.cb_ImportType.Items.AddRange(new object[] {
+            "Импортировать все",
+            "Импортировать только картографические данные",
+            "Импортировать только данные по ИНППВ"});
+            this.cb_ImportType.Location = new System.Drawing.Point(6, 42);
+            this.cb_ImportType.Name = "cb_ImportType";
+            this.cb_ImportType.Size = new System.Drawing.Size(215, 21);
+            this.cb_ImportType.TabIndex = 3;
+            // 
             // B_OK
             // 
-            this.B_OK.Location = new System.Drawing.Point(515, 430);
+            this.B_OK.Location = new System.Drawing.Point(516, 293);
             this.B_OK.Name = "B_OK";
             this.B_OK.Size = new System.Drawing.Size(92, 26);
-            this.B_OK.TabIndex = 7;
+            this.B_OK.TabIndex = 6;
             this.B_OK.Text = "Готово";
             this.B_OK.UseVisualStyleBackColor = true;
             this.B_OK.Click += new System.EventHandler(this.B_OK_Click);
             // 
             // B_Cancel
             // 
-            this.B_Cancel.Location = new System.Drawing.Point(613, 430);
+            this.B_Cancel.Location = new System.Drawing.Point(614, 293);
             this.B_Cancel.Name = "B_Cancel";
             this.B_Cancel.Size = new System.Drawing.Size(92, 26);
             this.B_Cancel.TabIndex = 7;
@@ -192,7 +218,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(717, 475);
+            this.ClientSize = new System.Drawing.Size(717, 338);
             this.Controls.Add(this.B_Cancel);
             this.Controls.Add(this.B_OK);
             this.Controls.Add(this.groupBox2);
@@ -204,9 +230,10 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "f_ImportDataDialog";
             this.Text = "Импорт картографических данных Open Street Map";
-            //this.Load += new System.EventHandler(this.f_ImportDataDialog_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -228,5 +255,7 @@
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Button B_OK;
         private System.Windows.Forms.Button B_Cancel;
+        private System.Windows.Forms.ComboBox cb_ImportType;
+        private System.Windows.Forms.Label label4;
     }
 }
