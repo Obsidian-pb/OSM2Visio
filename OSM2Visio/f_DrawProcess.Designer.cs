@@ -204,7 +204,7 @@ namespace OSM2Visio
                         }
                         if (Td.Attributes["k"].InnerText == "barrier")
                         {
-                            if (shp.Application.Version == "16,0")
+                            if (shp.Application.Version == "16,0" || shp.Application.Version == "16.0")
                                 DrawTools.PolyLineToLine16(ref shp);
                             else
                                 DrawTools.PolyLineToLine(ref shp);
@@ -221,7 +221,7 @@ namespace OSM2Visio
                 }
             }
 
-            if (importType == 2)
+            if (importType == 0 || importType == 2)
             {
                 //В зависимости от типа выбранного источника данных по ИНППВ выполняем импорт
                 switch (INPPVSourceIndex)
@@ -299,7 +299,7 @@ namespace OSM2Visio
                 DrawTools.CopyCellFormula(ref shp, ref BcgndShp, "PinY");
                 DrawTools.CopyCellFormula(ref shp, ref BcgndShp, "LocPinX");
                 DrawTools.CopyCellFormula(ref shp, ref BcgndShp, "LocPinY");
-                if (shp.Application.Version == "16,0")
+                if (shp.Application.Version == "16,0" || shp.Application.Version == "16.0")
                 {
                     BcgndShp.get_Cells("Geometry1.X1").FormulaU = DrawTools.StringToFormulaForString("Width*" + shp.get_Cells("Geometry1.X1").get_Result(Microsoft.Office.Interop.Visio.tagVisUnitCodes.visNumber));
                     BcgndShp.get_Cells("Geometry1.Y1").FormulaU = DrawTools.StringToFormulaForString("Height*" + shp.get_Cells("Geometry1.Y1").get_Result(Microsoft.Office.Interop.Visio.tagVisUnitCodes.visNumber));
@@ -427,7 +427,7 @@ namespace OSM2Visio
                     DrawTools.CopyCellFormula(ref shp, ref BldngShp, "PinY");
                     DrawTools.CopyCellFormula(ref shp, ref BldngShp, "LocPinX");
                     DrawTools.CopyCellFormula(ref shp, ref BldngShp, "LocPinY");
-                    if (shp.Application.Version == "16,0")
+                    if (shp.Application.Version == "16,0" || shp.Application.Version == "16.0")
                     {
                         BldngShp.get_Cells("Geometry1.X1").FormulaU = DrawTools.StringToFormulaForString("Width*" + shp.get_Cells("Geometry1.X1").get_ResultStr(0));
                         BldngShp.get_Cells("Geometry1.Y1").FormulaU = DrawTools.StringToFormulaForString("Height*" + shp.get_Cells("Geometry1.Y1").get_ResultStr(0));
