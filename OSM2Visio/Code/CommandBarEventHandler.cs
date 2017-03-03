@@ -6,14 +6,16 @@ namespace OSM2Visio.Code
 {
     class CommandBarEventHandler
     {
-        //private f_ImportDataDialog FormSelectDialog;
+        private f_ImportDataDialog FormSelectDialog;
 
         public void MyCommandBarButtonClick(Office.CommandBarButton cmdButton, ref bool
 cancel)
         {
             try
             {
-                ThisAddIn.importDataDialogForm.Show();
+                //ThisAddIn.importDataDialogForm.Show();
+                FormSelectDialog = new f_ImportDataDialog();
+                FormSelectDialog.Show();
             }
             catch (Exception e)
             {

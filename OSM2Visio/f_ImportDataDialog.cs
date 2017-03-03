@@ -108,7 +108,8 @@ namespace OSM2Visio
         private void B_Cancel_Click(object sender, EventArgs e)
         {
             //Закрываем текущую форму
-            this.Hide();
+            //this.Hide();
+            this.Close();
         }
 
         

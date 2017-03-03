@@ -87,6 +87,69 @@ namespace OSM2Visio
 
         }
 
+        #region Проки отрисовки OSM
+        //static public void DrawRelation(System.Xml.XmlNode node, ref System.Xml.XmlDocument NodeDoc, DrawTools.CoordRecatangle v_Box,         
+        //    double InchInGradH, double InchInGradV)
+        //{
+        //    foreach (System.Xml.XmlNode chldNode in node.ChildNodes)
+        //    {
+        //        if (chldNode.Name == "member")
+        //        {
+        //            if (chldNode.Attributes["type"].InnerText == "relation")
+        //            {
+        //                DrawRelation(chldNode, ref NodeDoc, v_Box, InchInGradH, InchInGradV);
+        //            }
+        //            if (chldNode.Attributes["type"].InnerText == "way")
+        //            {
+        //                DrawWay(chldNode, ref NodeDoc, v_Box, InchInGradH, InchInGradV);
+        //            }
+        //        }
+        //    }
+        //}
+
+        //static public void DrawWay(System.Xml.XmlNode node, ref System.Xml.XmlDocument NodeDoc, DrawTools.CoordRecatangle v_Box,
+        //    double InchInGradH, double InchInGradV)
+        //{
+        //    System.Xml.XmlNodeList NdList;
+
+        //    Double x = 0;
+        //    Double y = 0;
+        //    Double XPos;
+        //    Double YPos;
+
+        //    int j = 0;
+
+        //    NdList = node.SelectNodes("nd");  //список узлов с координатами точек
+        //    //Массив для хранения точек для отрисовки зданий
+        //    Array pnts = Array.CreateInstance(typeof(Double), NdList.Count * 2); ;  //-1
+
+        //    //j = 0;
+        //    //---Перебираем все узлы в списке NdList
+        //    foreach (System.Xml.XmlNode Nd in NdList)
+        //    {
+        //        //PrB_DrawProcess.Value = i;
+
+        //        GetPosition(Nd.Attributes["ref"].InnerText, ref NodeDoc, ref x, ref y);
+
+        //        //Получаем координату относительно края области (в дюймах - все в дюймах)
+        //        XPos = (x - v_Box.XY1.x);
+        //        YPos = (y - v_Box.XY1.y);
+
+        //        //Заполянем очередную точку в массиве
+        //        pnts.SetValue(XPos * InchInGradH, j);
+        //        pnts.SetValue(YPos * InchInGradV, j + 1);
+
+        //        j = j + 2;
+        //    }
+
+
+
+        //}
+
+        #endregion Проки отрисовки OSM
+
+
+
         #region Работа с координатами
         /// <summary>
         /// Прока передает в переменные данные об относительном положении точки на листе

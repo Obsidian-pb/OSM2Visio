@@ -84,9 +84,10 @@ namespace OSM2Visio
         //---------------------------Внешние проки формы
         //Основная прока отрисовки зданий из OSM, Получает XMLDocument документ с данными из файла
         public void Pv_Draw(Microsoft.Office.Interop.Visio.Application VisioApp,
-            System.Xml.XmlDocument Data , int INPPVSourceIndex, string EWSFilePath, int importType)
+            System.Xml.XmlDocument Data, int INPPVSourceIndex, string EWSFilePath, int importType)
         {
             //Переменные для работы
+            //System.Xml.XmlNodeList RelList;
             System.Xml.XmlNodeList NodesList;
             System.Xml.XmlNodeList NdList;
             System.Xml.XmlNodeList TdList;
@@ -210,6 +211,15 @@ namespace OSM2Visio
                                 DrawTools.PolyLineToLine(ref shp);
                             CreateCorrectBorder(ref VisioApp, ref shp, TdList);
                             NeedDelete = false;
+                        }
+                        if (Td.Attributes["k"].InnerText == "amenity")
+                        {
+                            //if (shp.Application.Version == "16,0" || shp.Application.Version == "16.0")
+                            //    DrawTools.PolyLineToLine16(ref shp);
+                            //else
+                            //    DrawTools.PolyLineToLine(ref shp);
+                            //CreateCorrectAmenity(ref VisioApp, ref shp, TdList);
+                            //NeedDelete = false;
                         }
                         Application.DoEvents();
 
@@ -821,6 +831,73 @@ namespace OSM2Visio
                 //throw;
             }
         }
+        /// <summary>
+        /// Прока создает корректную зону Ограждение
+        /// </summary>
+        /// <param name="VisioApp">Текущее приложение Visio</param>
+        /// <param name="shp">Фигура отрисованная из OSM</param>
+        /// <param name="TdList">перечень узлов с данными (tag)</param>
+        /// <returns></returns>
+        private Boolean CreateCorrectAmenity(ref Microsoft.Office.Interop.Visio.Application VisioApp,
+            ref Visio.Shape shp, System.Xml.XmlNodeList TdList)
+        {
+            try
+            {
+                Visio.Cell ShpCell;
+                short i = 0;
+
+                //Получаем все свойства для данного объекта
+                foreach (System.Xml.XmlNode Td in TdList)
+                {
+                    switch (Td.Attributes["k"].InnerText)
+                    {
+                        case "barrier":
+                            //определяем что за барьер
+                            switch (Td.Attributes["v"].InnerText)
+                            {
+                                case "fence":
+                                    shp.get_CellsSRC(10, 0, 0).FormulaU = "1";
+                                    break;
+                                default:
+                                    shp.get_CellsSRC(10, 0, 0).FormulaU = "1";
+                                    break;
+                            }
+                            break;
+                        case "kindergarten":
+                            //определяем что за барьер
+                            shp.get_CellsSRC(10, 0, 0).FormulaU = "1";
+                            break;
+                        case "parking":
+                            //определяем что за барьер
+                            shp.get_CellsSRC(10, 0, 0).FormulaU = "1";
+                            break;
+                        default:
+                            //Если такой ключ не соответсвует данным, добавляем его
+                            shp.AddRow(243, i, 0);
+                            ShpCell = shp.get_CellsSRC(243, i, 2);  //visCustPropsLabel
+                            ShpCell.RowNameU =
+                                Td.Attributes["k"].InnerText.Replace(":", "_");
+                            ShpCell.FormulaU =
+                                DrawTools.StringToFormulaForString(Td.Attributes["k"].InnerText);
+                            ShpCell = shp.get_CellsSRC(243, i, 0);  //visCustPropsValue
+                            ShpCell.FormulaU =
+                                DrawTools.StringToFormulaForString(Td.Attributes["v"].InnerText);
+                            shp.get_CellsSRC(10, 0, 0).FormulaU = "1";
+                            i++;
+                            break;
+                    }
+                }
+                shp.get_CellsSRC(1, 6, 0).FormulaU = GetLayerNumber(ref VisioApp, "Зонирование");  //visSectionObject = 1, visRowLayerMem = 6, visLayerMember = 0
+                return true;
+            }
+            catch (Exception err)
+            {
+                MessageBox.Show("Территории: " + err.Message);
+                return false;
+                //throw;
+            }
+        }
+
 
 
         /// <summary>
@@ -854,6 +931,11 @@ namespace OSM2Visio
 
                 //Отправляем вперед фигуры зданий
                 LayerSelection = CurPage.CreateSelection(Visio.VisSelectionTypes.visSelTypeByLayer, Visio.VisSelectMode.visSelModeSkipSuper, "Здания");
+                LayerSelection.BringToFront();
+                LayerSelection.DeselectAll();
+
+                //Отправляем вперед фигуры зон
+                LayerSelection = CurPage.CreateSelection(Visio.VisSelectionTypes.visSelTypeByLayer, Visio.VisSelectMode.visSelModeSkipSuper, "Зонирование");
                 LayerSelection.BringToFront();
                 LayerSelection.DeselectAll();
             }
