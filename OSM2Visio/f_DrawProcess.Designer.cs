@@ -205,22 +205,22 @@ namespace OSM2Visio
                         }
                         if (Td.Attributes["k"].InnerText == "barrier")
                         {
-                            if (shp.Application.Version == "16,0" || shp.Application.Version == "16.0")
-                                DrawTools.PolyLineToLine16(ref shp);
-                            else
-                                DrawTools.PolyLineToLine(ref shp);
+                            //if (DrawTools.IsNewApp(shp.Application.Version))
+                            //    DrawTools.PolyLineToLine16(ref shp);
+                            //else
+                            //    DrawTools.PolyLineToLine(ref shp);
                             CreateCorrectBorder(ref VisioApp, ref shp, TdList);
                             NeedDelete = false;
                         }
-                        if (Td.Attributes["k"].InnerText == "amenity")
-                        {
-                            //if (shp.Application.Version == "16,0" || shp.Application.Version == "16.0")
+                        //if (Td.Attributes["k"].InnerText == "amenity")
+                        //{
+                            //if (DrawTools.IsNewApp(shp.Application.Version))
                             //    DrawTools.PolyLineToLine16(ref shp);
                             //else
                             //    DrawTools.PolyLineToLine(ref shp);
                             //CreateCorrectAmenity(ref VisioApp, ref shp, TdList);
                             //NeedDelete = false;
-                        }
+                        //}
                         Application.DoEvents();
 
                         k++;
@@ -309,7 +309,7 @@ namespace OSM2Visio
                 DrawTools.CopyCellFormula(ref shp, ref BcgndShp, "PinY");
                 DrawTools.CopyCellFormula(ref shp, ref BcgndShp, "LocPinX");
                 DrawTools.CopyCellFormula(ref shp, ref BcgndShp, "LocPinY");
-                if (shp.Application.Version == "16,0" || shp.Application.Version == "16.0")
+                if (DrawTools.IsNewApp(shp.Application.Version))
                 {
                     BcgndShp.get_Cells("Geometry1.X1").FormulaU = DrawTools.StringToFormulaForString("Width*" + shp.get_Cells("Geometry1.X1").get_Result(Microsoft.Office.Interop.Visio.tagVisUnitCodes.visNumber));
                     BcgndShp.get_Cells("Geometry1.Y1").FormulaU = DrawTools.StringToFormulaForString("Height*" + shp.get_Cells("Geometry1.Y1").get_Result(Microsoft.Office.Interop.Visio.tagVisUnitCodes.visNumber));
@@ -437,7 +437,7 @@ namespace OSM2Visio
                     DrawTools.CopyCellFormula(ref shp, ref BldngShp, "PinY");
                     DrawTools.CopyCellFormula(ref shp, ref BldngShp, "LocPinX");
                     DrawTools.CopyCellFormula(ref shp, ref BldngShp, "LocPinY");
-                    if (shp.Application.Version == "16,0" || shp.Application.Version == "16.0")
+                    if (DrawTools.IsNewApp(shp.Application.Version))
                     {
                         BldngShp.get_Cells("Geometry1.X1").FormulaU = DrawTools.StringToFormulaForString("Width*" + shp.get_Cells("Geometry1.X1").get_ResultStr(0));
                         BldngShp.get_Cells("Geometry1.Y1").FormulaU = DrawTools.StringToFormulaForString("Height*" + shp.get_Cells("Geometry1.Y1").get_ResultStr(0));

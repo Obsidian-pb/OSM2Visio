@@ -86,6 +86,18 @@ namespace OSM2Visio
             }
 
         }
+        /// <summary>
+        /// Функция возвращает True, если приложение имеет версию 16 или 15.
+        /// </summary>
+        /// <returns></returns>
+        static public bool IsNewApp(String vers)
+        {
+            if (vers == "16,0" || vers == "16.0" || vers == "15,0" || vers == "15.0")
+                return true;
+            else
+                return false;
+        }
+
 
         #region Проки отрисовки OSM
         //static public void DrawRelation(System.Xml.XmlNode node, ref System.Xml.XmlDocument NodeDoc, DrawTools.CoordRecatangle v_Box,         
