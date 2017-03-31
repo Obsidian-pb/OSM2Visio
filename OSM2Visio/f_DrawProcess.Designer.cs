@@ -71,6 +71,7 @@ namespace OSM2Visio
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "f_DrawProcess";
             this.Text = "Отрисовка данных";
+            this.Closed += new System.EventHandler(this.f_DrawProcess_Closed);
             this.ResumeLayout(false);
 
         }
@@ -148,6 +149,9 @@ namespace OSM2Visio
                 //---Перебираем все узлы way в списке NodeList
                 foreach (System.Xml.XmlNode node in NodesList)
                 {
+                    //Если форма закрыта - выходим
+                    if (!_isGoon) return;
+
                     NdList = node.SelectNodes("nd");  //список узлов с координатами точек
                     //Массив для хранения точек для отрисовки зданий
                     Array pnts = Array.CreateInstance(typeof(Double), NdList.Count * 2); ;  //-1
@@ -1081,6 +1085,10 @@ namespace OSM2Visio
         public void SetProgressBarCurrentValue(int curVal)
         {
             this.PrB_DrawProcess.Value = curVal;
+        }
+        public int GetProgressbarMaximum()
+        {
+            return this.PrB_DrawProcess.Maximum;
         }
 
     }
