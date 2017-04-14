@@ -208,7 +208,8 @@ namespace OSM2Visio.Code.DrawData
                                 shp.get_Cells("Prop.PWNumber").FormulaU = DrawTools.StringToFormulaForString(Td.Attributes["v"].InnerText);
                                 break;
                             case "water_tank:volume":
-                                tmpStr = Td.Attributes["v"].InnerText;
+                                //tmpStr = Td.Attributes["v"].InnerText;
+                                tmpStr = (int.Parse(Td.Attributes["v"].InnerText) / 1000).ToString();
                                 if (tmpStr.IndexOf("no") > 0)
                                 {
                                     shp.get_Cells("LineColor").FormulaU = DrawTools.StringToFormulaForString("2");

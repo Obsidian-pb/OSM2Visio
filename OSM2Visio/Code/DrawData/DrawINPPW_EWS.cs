@@ -343,7 +343,7 @@ namespace OSM2Visio
                 //Уазываем данные ПГ
                 shp.get_Cells("Prop.PWNumber").FormulaU = DrawTools.StringToFormulaForString(ews_Data.number);
                 shp.get_Cells("Prop.PWAdress").FormulaU = DrawTools.StringToFormulaForString(ews_Data.address);
-                shp.get_Cells("Prop.PipeType").FormulaU = DrawTools.StringToFormulaForString(GetTypePipe(ews_Data.pipeType));
+                //shp.get_Cells("Prop.PipeType").FormulaU = DrawTools.StringToFormulaForString(GetTypePipe(ews_Data.pipeType));
                 shp.get_Cells("Prop.PWValue").FormulaU = DrawTools.StringToFormulaForString(ews_Data.value.ToString());
                 shp.get_Cells("Prop.SetsCount").FormulaU = DrawTools.StringToFormulaForString(ews_Data.PACount.ToString());
                 if (ews_Data.status == 1)

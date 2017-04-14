@@ -359,7 +359,7 @@ namespace OSM2Visio
                     pos1 = caption.IndexOf("ПВ-") + 3;
                 if (caption.IndexOf("Гр-") >= 0)
                     pos1 = caption.IndexOf("Гр-") + 3;
-                double value = Double.Parse(caption.Substring(pos1))/1000;
+                double value = Double.Parse(caption.Substring(pos1)); // /1000;
                 return value.ToString();
             }
             catch (Exception e)
