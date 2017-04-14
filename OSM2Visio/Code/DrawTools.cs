@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Xml;
 using Visio = Microsoft.Office.Interop.Visio;
 using System.Windows.Forms;
 
@@ -32,6 +33,9 @@ namespace OSM2Visio
         }
         #endregion Структуры координат
 
+        /// <summary>
+        /// Перечисление типов ИНППВ
+        /// </summary>
         public enum INPPW_Types {PG, PW, MO, LO, NO, SO, Sk, Gr, Such, Ok, PK, PO, Bash, Pd, Pirs, nothing}
 
         /// <summary>
@@ -614,6 +618,20 @@ namespace OSM2Visio
 
         #endregion Работа со строками
 
+        #region Работа с XML
 
+        static public XmlNode GetNodeByName(XmlNodeList nodeList, String nodeName)
+        {
+            foreach (System.Xml.XmlNode node in nodeList)
+            {
+                if (node.Name == nodeName)
+                {
+                    return node;
+                }
+            }
+            return null;
+        }
+
+        #endregion
     }
 }

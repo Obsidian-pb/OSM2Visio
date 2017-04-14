@@ -95,7 +95,10 @@ namespace OSM2Visio
                 this.Hide();
 
                 //Создаем экземпляр формы процесса отрисовки
-                ThisAddIn.drawProcessForm.Pv_Draw(VisApp, OSMData, CB_EWSSource.SelectedIndex, EWS_DataFilePath, cb_ImportType.SelectedIndex);
+                f_DrawProcess drawProcessForm = new f_DrawProcess();
+                drawProcessForm.Pv_Draw(VisApp, OSMData, CB_EWSSource.SelectedIndex, EWS_DataFilePath, cb_ImportType.SelectedIndex);
+                //ThisAddIn.drawProcessForm.Pv_Draw(VisApp, OSMData, CB_EWSSource.SelectedIndex, EWS_DataFilePath, cb_ImportType.SelectedIndex);
+
             }
             catch (Exception exc)
             {

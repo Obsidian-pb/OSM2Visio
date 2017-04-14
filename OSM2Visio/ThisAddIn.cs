@@ -17,7 +17,7 @@ namespace OSM2Visio
         private c_ToolBars TBO;
 
         public static f_ImportDataDialog importDataDialogForm;
-        public static f_DrawProcess drawProcessForm;
+        //public static f_DrawProcess drawProcessForm;
 
         private void ThisAddIn_Startup(object sender, System.EventArgs e)
         {
@@ -30,7 +30,7 @@ namespace OSM2Visio
 
             //Создаем окна аддина
             importDataDialogForm = new f_ImportDataDialog();
-            drawProcessForm = new f_DrawProcess();
+            //drawProcessForm = new f_DrawProcess();
 
         }
 
@@ -38,7 +38,7 @@ namespace OSM2Visio
         {
             VisApp = null;
             importDataDialogForm = null;
-            drawProcessForm = null;
+            //drawProcessForm = null;
         }
 
         #region VSTO generated code

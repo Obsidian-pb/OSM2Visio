@@ -64,6 +64,9 @@ namespace OSM2Visio.Code.DrawData
             //---Перебираем все узлы node в списке NodeList
             foreach (System.Xml.XmlNode node in NodesList)
             {
+                //Если форма закрыта - выходим
+                if (!drawForm.IsGoon) return;
+
                 if (node.ChildNodes.Count > 0)
                 {
                     TdList = node.SelectNodes("tag");  //список узлов с описанием

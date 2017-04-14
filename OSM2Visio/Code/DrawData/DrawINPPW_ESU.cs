@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
@@ -79,49 +80,65 @@ namespace OSM2Visio
                 //foreach (System.Xml.XmlNode node in NodesList)
                 foreach (System.Xml.XmlNode node in DocNode.ChildNodes)
                 {
-                    if (node.Name == "Placemark")
-                    {
-                        //---Получаем данные из узла
-                        //---Координаты точки
-                        tempStrArr = node.ChildNodes.Item(3).FirstChild.InnerText.Split(',');
-                        //Получаем координаты точки где необходимо вставить ИНППВ
-                        x = DrawTools.pf_StrToDbl(tempStrArr[0]);
-                        y = DrawTools.pf_StrToDbl(tempStrArr[1]);
-                        DrawTools.Coordinate pnt2; pnt2.x = x; pnt2.y = y;
+                    //Если форма закрыта - выходим
+                    if (!drawForm.IsGoon) return;
 
-                        //Получаем координату относительно края области (в дюймах - все в дюймах)
-                        XPos = (x - v_Box.XY1.x); YPos = (y - v_Box.XY1.y);
-                        pnt.x = XPos * InchInGradH; pnt.y = YPos * InchInGradV;
-
-                        //Проверяем входит ли координата в прямоугольник карты
-                        if (DrawTools.checkForBox(pnt2, v_Box))
+                    //try  //Учитываем исключение в случае, если не указан узел <styleUrl>
+                    //{
+                        if (node.Name == "Placemark")
                         {
-                            //---Описание
-                            caption = node.ChildNodes.Item(0).InnerText;
+                            //---Получаем данные из узла
+                            //---Координаты точки
+                            //tempStrArr = node.ChildNodes.Item(3).FirstChild.InnerText.Split(',');  //Старый
+                            tempStrArr = DrawTools.GetNodeByName(node.ChildNodes, "Point").FirstChild.InnerText.Split(',');
+                            //tempStrArr = node.SelectSingleNode("descendant::Point").FirstChild.InnerText.Split(','); //СРАНЫЕ ПУТИ БЛЯТЬ!!!!
+                            //tempStrArr = node.SelectSingleNode("Point[1]").InnerText.Split(',');
+                            //Получаем координаты точки где необходимо вставить ИНППВ
+                            x = DrawTools.pf_StrToDbl(tempStrArr[0]);
+                            y = DrawTools.pf_StrToDbl(tempStrArr[1]);
+                            DrawTools.Coordinate pnt2; pnt2.x = x; pnt2.y = y;
 
-                            //---Тип ИНППВ
-                            INPPW_Type = GetTypeINPPW(caption);
+                            //Получаем координату относительно края области (в дюймах - все в дюймах)
+                            XPos = (x - v_Box.XY1.x); YPos = (y - v_Box.XY1.y);
+                            pnt.x = XPos * InchInGradH; pnt.y = YPos * InchInGradV;
 
-                            //---Описание
-                            description = node.ChildNodes.Item(2).InnerText;
-                            description = description.Substring(2, description.Length - 4);
+                            //Проверяем входит ли координата в прямоугольник карты
+                            if (DrawTools.checkForBox(pnt2, v_Box))
+                            {
+                                //---Описание
+                                caption = node.ChildNodes.Item(0).InnerText;
 
-                            //---Состояние
-                            condition = node.ChildNodes.Item(1).InnerText;
+                                //---Тип ИНППВ
+                                INPPW_Type = GetTypeINPPW(caption);
 
-                            //Создаем новый ИНППВ, согласно указанным в node координатам
-                            CreateEWS_ESU(ref VisioApp, pnt, INPPW_Type, description, condition, caption);
+                                //---Описание
+                                description = node.ChildNodes.Item(2).InnerText;
+                                description = description.Substring(2, description.Length - 4);
+
+                                //---Состояние
+                                condition = node.ChildNodes.Item(1).InnerText;
+
+                                //Создаем новый ИНППВ, согласно указанным в node координатам
+                                CreateEWS_ESU(ref VisioApp, pnt, INPPW_Type, description, condition, caption);
+                            }
+
+                            drawForm.SetProgressBarCurrentValue(i);
+                            i++;
                         }
+                    //}
+                    //catch (Exception)
+                    //{
+                    //    //throw;
+                    //}
 
-                        drawForm.SetProgressBarCurrentValue(i);
-                        i++;
-                    }
                     Application.DoEvents();
                 }
+                drawForm.SetProgressBarCurrentValue(drawForm.GetProgressbarMaximum());
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                //MessageBox.Show(e.Message);
+                //MessageBox.Show(e.StackTrace);
+                MessageBox.Show(e.Message);
                 //throw;
             }
             
@@ -148,11 +165,14 @@ namespace OSM2Visio
             numberINPPW = GetNumberINPPW(caption);
             state = GetStateINPPW(description);
 
+            
+
             switch (INPPW_Type)
             {
                 case DrawTools.INPPW_Types.PG:
                     //Вбрасываем новый ПГ
-                    shp = DropNewPG(pnt, caption, address, numberINPPW, state);
+                    //MessageBox.Show(DrawTools.INPPW_Types.PG.GetHashCode().ToString());
+                    shp = DropNewPG(pnt, caption, address, numberINPPW, state, "0");
                     AddCommonData(shp, description);
                     break;
                 case DrawTools.INPPW_Types.PW:
@@ -162,22 +182,22 @@ namespace OSM2Visio
                     break;
                 case DrawTools.INPPW_Types.MO:
                     //Вбрасываем новый ПГ
-                    shp = DropNewPG(pnt, caption, address, numberINPPW, state);
+                    shp = DropNewPG(pnt, caption, address, numberINPPW, state, "1");
                     AddCommonData(shp, description);
                     break;
                 case DrawTools.INPPW_Types.LO:
                     //Вбрасываем новый ПГ
-                    shp = DropNewPG(pnt, caption, address, numberINPPW, state);
+                    shp = DropNewPG(pnt, caption, address, numberINPPW, state, "2");
                     AddCommonData(shp, description);
                     break;
                 case DrawTools.INPPW_Types.NO:
                     //Вбрасываем новый ПГ
-                    shp = DropNewPG(pnt, caption, address, numberINPPW, state);
+                    shp = DropNewPG(pnt, caption, address, numberINPPW, state, "3");
                     AddCommonData(shp, description);
                     break;
                 case DrawTools.INPPW_Types.SO:
                     //Вбрасываем новый ПГ
-                    shp = DropNewPG(pnt, caption, address, numberINPPW, state);
+                    shp = DropNewPG(pnt, caption, address, numberINPPW, state, "4");
                     AddCommonData(shp, description);
                     break;
                 case DrawTools.INPPW_Types.Sk:
@@ -418,7 +438,7 @@ namespace OSM2Visio
         /// <param name="state"></param>
         /// <returns>shp - фигура ПГ</returns>
         private Visio.Shape DropNewPG(DrawTools.Coordinate pnt, string caption, 
-             string address, string numberINPPW, bool state)
+             string address, string numberINPPW, bool state, String typeOfPG)
         {
             Visio.Shape shp;
             Visio.Master mstr;
@@ -439,6 +459,7 @@ namespace OSM2Visio
                 shp.get_Cells("Prop.PGAdress").FormulaU = DrawTools.StringToFormulaForString(address);
                 shp.get_Cells("Prop.PipeType").FormulaU = DrawTools.StringToFormulaForString(typePG);
                 shp.get_Cells("Prop.PipeDiameter").FormulaU = DrawTools.StringToFormulaForString(diameter);
+                shp.get_Cells("Prop.PGType").FormulaU = "INDEX(" + typeOfPG + ",Prop.PGType.Format)";
                 if (!state)
                 {
                     shp.get_Cells("LineColor").FormulaU = DrawTools.StringToFormulaForString("2");
