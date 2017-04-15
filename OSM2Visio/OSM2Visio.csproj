@@ -236,7 +236,7 @@
     <Compile Include="OSM_Help.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="OSM_Help.Designer.cs">
+    <Compile Include="OSM_Help.designer.cs">
       <DependentUpon>OSM_Help.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">

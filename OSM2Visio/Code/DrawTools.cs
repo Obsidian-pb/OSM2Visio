@@ -609,6 +609,7 @@ namespace OSM2Visio
             }
             catch (Exception e)
             {
+                //MessageBox.Show(description);
                 MessageBox.Show(e.Message);
                 return "";
                 //throw;

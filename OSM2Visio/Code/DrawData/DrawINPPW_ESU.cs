@@ -112,7 +112,8 @@ namespace OSM2Visio
                                 INPPW_Type = GetTypeINPPW(caption);
 
                                 //---Описание
-                                description = node.ChildNodes.Item(2).InnerText;
+                                //description = node.ChildNodes.Item(2).InnerText;
+                                description = DrawTools.GetNodeByName(node.ChildNodes, "description").InnerText;
                                 description = description.Substring(2, description.Length - 4);
 
                                 //---Состояние
