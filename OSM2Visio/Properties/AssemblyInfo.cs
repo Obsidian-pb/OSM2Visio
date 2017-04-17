@@ -7,11 +7,11 @@ using System.Security;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("OSM2Visio")]
-[assembly: AssemblyDescription("Аддон для приложения MS Visio, позволяющий импортировать в схемы карты OSM")]
+[assembly: AssemblyDescription("Надстройка для MS Visio позволяющая импортировать картографические данные OSM")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Obsidian creations")]
+[assembly: AssemblyCompany("ФГБОУ ВО Сибирская пожарно-спасательная академия ГПС МЧС России")]
 [assembly: AssemblyProduct("OSM2Visio")]
-[assembly: AssemblyCopyright("Copyright © freeeware 2017")]
+[assembly: AssemblyCopyright("Copyright © СибПСА")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -33,5 +33,5 @@ using System.Security;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("0.5.0.1")]
-[assembly: AssemblyFileVersion("0.5.0.1")]
+[assembly: AssemblyVersion("1.0.0.1")]
+[assembly: AssemblyFileVersion("1.0.0.1")]
