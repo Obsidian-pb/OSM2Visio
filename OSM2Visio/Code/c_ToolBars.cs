@@ -95,7 +95,8 @@ namespace OSM2Visio.Code
                     _CommandBarButtonEvents_ClickEventHandler
                     (eventHandler.MyCommandBarButtonClick);
 
-                addedCommandBarButtonFireClick.Enabled = false;
+                //addedCommandBarButtonFireClick.Enabled = false;
+                addedCommandBarButtonFireClick.Enabled = IsNeededTrafaretsExists();
                 
             }
             catch (Exception err)
@@ -119,10 +120,7 @@ namespace OSM2Visio.Code
                 commandBar = commandBars["OSM Import"];
                 button = (Microsoft.Office.Core.CommandBarButton)commandBar.Controls["Импорт карты OSM"];
 
-                if (IsNeededTrafaretsExists())
-                    button.Enabled = true;
-                else
-                    button.Enabled = false;
+                button.Enabled = IsNeededTrafaretsExists();
             }
             catch (Exception e)
             {

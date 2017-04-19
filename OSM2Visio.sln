@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OSM2Visio", "OSM2Visio\OSM2Visio.csproj", "{7656FEA9-FE8A-4B6F-88F9-75C5309EF400}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "OSM2Visio_Setup", "OSM2Visio_Setup\OSM2Visio_Setup.vdproj", "{33D8C212-AA4E-4F71-A0C0-779DF03C3D9B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,6 +15,8 @@ Global
 		{7656FEA9-FE8A-4B6F-88F9-75C5309EF400}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7656FEA9-FE8A-4B6F-88F9-75C5309EF400}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7656FEA9-FE8A-4B6F-88F9-75C5309EF400}.Release|Any CPU.Build.0 = Release|Any CPU
+		{33D8C212-AA4E-4F71-A0C0-779DF03C3D9B}.Debug|Any CPU.ActiveCfg = Debug
+		{33D8C212-AA4E-4F71-A0C0-779DF03C3D9B}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
