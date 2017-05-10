@@ -106,7 +106,8 @@ namespace OSM2Visio
                             if (DrawTools.checkForBox(pnt2, v_Box))
                             {
                                 //---Описание
-                                caption = node.ChildNodes.Item(0).InnerText;
+                                //caption = node.ChildNodes.Item(0).InnerText;
+                                caption = DrawTools.GetNodeByName(node.ChildNodes, "name").InnerText;
 
                                 //---Тип ИНППВ
                                 INPPW_Type = GetTypeINPPW(caption);
@@ -172,7 +173,6 @@ namespace OSM2Visio
             {
                 case DrawTools.INPPW_Types.PG:
                     //Вбрасываем новый ПГ
-                    //MessageBox.Show(DrawTools.INPPW_Types.PG.GetHashCode().ToString());
                     shp = DropNewPG(pnt, caption, address, numberINPPW, state, "0");
                     AddCommonData(shp, description);
                     break;
@@ -255,8 +255,8 @@ namespace OSM2Visio
         /// <param name="_description"></param>
         private void AddCommonData(Visio.Shape shp, string _description)
         {
-            string commonData = _description.Replace("<br>", "\n");
-            shp.get_Cells("Prop.Common").FormulaU = DrawTools.StringToFormulaForString(commonData);
+            //string commonData = _description.Replace("<br>", "\n");
+            shp.get_Cells("Prop.Common").FormulaU = DrawTools.StringToFormulaForString(_description);
         }
         #endregion Работа с фигурами
 

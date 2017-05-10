@@ -32,7 +32,7 @@ namespace OSM2Visio.Code
 
             //Подписываемся на событие "Открытие документа" (при открытии нового документа проверяем, не является ли он трафаретом "Водоснабжение" или "План на местности")
             theApplication.Documents.DocumentOpened += new Visio.EDocuments_DocumentOpenedEventHandler(Documents_DocumentOpened);
-            //Подписываемся на событие "Закрытие документа" (при открытии нового документа проверяем, не является ли он трафаретом "Водоснабжение" или "План на местности")
+            //Подписываемся на событие "Закрытие документа" (при закрытии существующего документа проверяем, не является ли он трафаретом "Водоснабжение" или "План на местности")
             theApplication.Documents.BeforeDocumentClose += new Visio.EDocuments_BeforeDocumentCloseEventHandler(Documents_BeforeDocumentClose);
 
             if (commandBarName == null || theApplication == null)
