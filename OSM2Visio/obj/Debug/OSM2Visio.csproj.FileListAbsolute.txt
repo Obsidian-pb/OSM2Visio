@@ -332,3 +332,16 @@ C:\OSM2VisioFiles\Debug\OSM2Visio.dll
 C:\OSM2VisioFiles\Debug\OSM2Visio.pdb
 C:\OSM2VisioFiles\Debug\OSM2Visio.dll.manifest
 C:\OSM2VisioFiles\Debug\OSM2Visio.vsto
+D:\OSM2VisioFiles\Debug\OSM2Visio.dll
+D:\OSM2VisioFiles\Debug\OSM2Visio.pdb
+D:\OSM2VisioFiles\Debug\OSM2Visio.dll.manifest
+D:\OSM2VisioFiles\Debug\OSM2Visio.vsto
+D:\GitRepositories\OSM2Visio\OSM2Visio\obj\Debug\OSM2Visio.csprojAssemblyReference.cache
+D:\GitRepositories\OSM2Visio\OSM2Visio\obj\Debug\OSM2Visio.f_DrawProcess.resources
+D:\GitRepositories\OSM2Visio\OSM2Visio\obj\Debug\OSM2Visio.f_ImportDataDialog.resources
+D:\GitRepositories\OSM2Visio\OSM2Visio\obj\Debug\OSM2Visio.Properties.Resources.resources
+D:\GitRepositories\OSM2Visio\OSM2Visio\obj\Debug\OSM2Visio.csproj.GenerateResource.cache
+D:\GitRepositories\OSM2Visio\OSM2Visio\obj\Debug\OSM2Visio.csproj.CoreCompileInputs.cache
+D:\GitRepositories\OSM2Visio\OSM2Visio\obj\Debug\OSM2Visio.csproj.CopyComplete
+D:\GitRepositories\OSM2Visio\OSM2Visio\obj\Debug\OSM2Visio.dll
+D:\GitRepositories\OSM2Visio\OSM2Visio\obj\Debug\OSM2Visio.pdb
