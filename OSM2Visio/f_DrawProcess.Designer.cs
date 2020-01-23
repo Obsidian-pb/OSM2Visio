@@ -1,15 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
-using System.Xml.Linq;
-//using System.Array;
 using Visio = Microsoft.Office.Interop.Visio;
-using Office = Microsoft.Office.Core;
 using OSM2Visio.Code.DrawData;
 using OSM2Visio.Code;
 
