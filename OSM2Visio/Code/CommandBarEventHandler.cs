@@ -11,8 +11,7 @@ namespace OSM2Visio.Code
     {
         private f_ImportDataDialog FormSelectDialog;
 
-        public void MyCommandBarButtonClick(Office.CommandBarButton cmdButton, ref bool
-cancel)
+        public void MyCommandBarButtonClick(Office.CommandBarButton cmdButton, ref bool cancel)
         {
             //MessageBox.Show("You Did it!!!");
             FormSelectDialog = new f_ImportDataDialog();

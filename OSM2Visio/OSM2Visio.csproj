@@ -252,7 +252,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <None Include="ClassDiagram1.cd" />
     <None Include="OSM2Visio_TemporaryKey.pfx" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -274,9 +273,7 @@
     </Compile>
     <AppDesigner Include="Properties\" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="www\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="img\DrawProcess.ico" />
     <Content Include="img\setting_tools.ico" />
