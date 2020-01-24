@@ -5,6 +5,7 @@ using System.Windows.Forms;
 using Office = Microsoft.Office.Core;
 using OSM2Visio.Properties;
 using Visio = Microsoft.Office.Interop.Visio;
+using System.Linq;
 
 namespace OSM2Visio
 {
@@ -57,31 +58,19 @@ namespace OSM2Visio
             }
         }
 
-        /// <summary>
-        /// Callback called by UI manager.
-        /// Should return if corresponding command (button) is pressed or not (makes sense for toggle buttons)
-        /// </summary>
         public bool IsCommandChecked(string command)
         {
             return false;
         }
-        /// <summary>
-        /// Callback called by UI manager.
-        /// Returns a label associated with given command.
-        /// We assume for simplicity taht command labels are named simply named as [commandId]_Label (see resources)
-        /// </summary>
-        public string GetCommandLabel(string command)
+
+        public string GetCommandText(string command, string suffix)
         {
-            return Resources.ResourceManager.GetString(command + "_Label");
+            return Resources.ResourceManager.GetString($"{command}_{suffix}", Resources.Culture);
         }
 
-        /// <summary>
-        /// Returns a bitmap associated with given command.
-        /// We assume for simplicity that bitmap ids are named after command id.
-        /// </summary>
         public Bitmap GetCommandBitmap(string id)
         {
-            return (Bitmap)Resources.ResourceManager.GetObject(id);
+            return (Bitmap)Resources.ResourceManager.GetObject(id, Resources.Culture);
         }
 
         internal void UpdateUI()
@@ -118,6 +107,20 @@ namespace OSM2Visio
         /// </summary>
         private void InternalStartup()
         {
+            // TODO: add proper language switching
+            var lcid = Application.LanguageSettings.LanguageID[Office.MsoAppLanguageID.msoLanguageIDUI];
+            var culture = (lcid != 1033)
+                ? new CultureInfo(lcid)
+                : CultureInfo.CurrentCulture;
+
+            var languages = new[] { "ru" };
+            if (languages.Any(language => language == culture.TwoLetterISOLanguageName))
+            {
+                Resources.Culture = culture;
+                System.Threading.Thread.CurrentThread.CurrentUICulture = culture;
+                UpdateUI();
+            }
+
             Startup += ThisAddIn_Startup;
             Shutdown += ThisAddIn_Shutdown;
         }

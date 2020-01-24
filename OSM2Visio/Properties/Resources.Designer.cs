@@ -61,6 +61,16 @@ namespace OSM2Visio.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        /// </summary>
+        internal static System.Drawing.Icon DrawProcess {
+            get {
+                object obj = ResourceManager.GetObject("DrawProcess", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap OsmImport {
@@ -71,7 +81,7 @@ namespace OSM2Visio.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to OSM Импорт.
+        ///   Looks up a localized string similar to OSM Import.
         /// </summary>
         internal static string OsmImport_Label {
             get {
@@ -108,6 +118,16 @@ namespace OSM2Visio.Properties {
         internal static string Ribbon {
             get {
                 return ResourceManager.GetString("Ribbon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        /// </summary>
+        internal static System.Drawing.Icon setting_tools {
+            get {
+                object obj = ResourceManager.GetObject("setting_tools", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
             }
         }
     }

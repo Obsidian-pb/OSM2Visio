@@ -84,5 +84,11 @@ namespace OSM2Visio
             v_ProcessForm.Pv_Draw(VisApp, OSMData, CB_EWSSource.SelectedIndex);
             //v_ProcessForm.Show();
         }
+
+        private void B_Cancel_Click(object sender, EventArgs e)
+        {
+            DialogResult = DialogResult.Cancel;
+            Close();
+        }
     }
 }

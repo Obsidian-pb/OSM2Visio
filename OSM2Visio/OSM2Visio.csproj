@@ -151,7 +151,13 @@
     <EmbeddedResource Include="f_DrawProcess.resx">
       <DependentUpon>f_DrawProcess.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="f_DrawProcess.ru.resx">
+      <DependentUpon>f_DrawProcess.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="f_ImportDataDialog.resx">
+      <DependentUpon>f_ImportDataDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="f_ImportDataDialog.ru.resx">
       <DependentUpon>f_ImportDataDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -159,6 +165,7 @@
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.ru.resx" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\DrawProcess.ico" />

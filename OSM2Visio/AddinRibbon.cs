@@ -48,7 +48,12 @@ namespace OSM2Visio
 
         public string OnGetRibbonLabel(Office.IRibbonControl control)
         {
-            return Globals.ThisAddIn.GetCommandLabel(control.Id);
+            return Globals.ThisAddIn.GetCommandText(control.Id, "Label");
+        }
+
+        public string OnGetRibbonDescription(Office.IRibbonControl control)
+        {
+            return Globals.ThisAddIn.GetCommandText(control.Id, "Description");
         }
 
         public void OnRibbonLoad(Office.IRibbonUI ribbonUI)

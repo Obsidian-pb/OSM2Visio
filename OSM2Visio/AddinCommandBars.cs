@@ -99,7 +99,8 @@ namespace OSM2Visio
             button.State = checkState ? MsoButtonState.msoButtonDown : MsoButtonState.msoButtonUp;
 
             button.Tag = id;
-            button.Caption = Globals.ThisAddIn.GetCommandLabel(id);
+            button.Caption = Globals.ThisAddIn.GetCommandText(id, "Label");
+            button.DescriptionText = Globals.ThisAddIn.GetCommandText(id, "Description");
             SetCommandBarButtonImage(button, id);
 
             button.Click += CommandBarButtonClicked;
