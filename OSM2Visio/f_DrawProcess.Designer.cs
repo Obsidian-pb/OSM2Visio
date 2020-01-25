@@ -1,15 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
-using System.Xml.Linq;
-//using System.Array;
 using Visio = Microsoft.Office.Interop.Visio;
-using Office = Microsoft.Office.Core;
 using OSM2Visio.Code.DrawData;
 using OSM2Visio.Code;
 
@@ -50,32 +41,23 @@ namespace OSM2Visio
             // 
             // PrB_DrawProcess
             // 
-            this.PrB_DrawProcess.Location = new System.Drawing.Point(12, 12);
+            resources.ApplyResources(this.PrB_DrawProcess, "PrB_DrawProcess");
             this.PrB_DrawProcess.Name = "PrB_DrawProcess";
-            this.PrB_DrawProcess.Size = new System.Drawing.Size(447, 36);
-            this.PrB_DrawProcess.TabIndex = 0;
             // 
             // B_OK
             // 
-            this.B_OK.Enabled = false;
-            this.B_OK.Location = new System.Drawing.Point(367, 54);
+            resources.ApplyResources(this.B_OK, "B_OK");
             this.B_OK.Name = "B_OK";
-            this.B_OK.Size = new System.Drawing.Size(92, 26);
-            this.B_OK.TabIndex = 8;
-            this.B_OK.Text = "Готово";
             this.B_OK.UseVisualStyleBackColor = true;
             this.B_OK.Click += new System.EventHandler(this.B_OK_Click);
             // 
             // f_DrawProcess
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(471, 90);
             this.Controls.Add(this.B_OK);
             this.Controls.Add(this.PrB_DrawProcess);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "f_DrawProcess";
-            this.Text = "Отрисовка данных";
             this.ResumeLayout(false);
 
         }

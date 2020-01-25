@@ -1,14 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using Visio = Microsoft.Office.Interop.Visio;
-using Office = Microsoft.Office.Core;
-using System.Xml;
 
 namespace OSM2Visio
 {
@@ -91,6 +83,12 @@ namespace OSM2Visio
 
             v_ProcessForm.Pv_Draw(VisApp, OSMData, CB_EWSSource.SelectedIndex);
             //v_ProcessForm.Show();
+        }
+
+        private void B_Cancel_Click(object sender, EventArgs e)
+        {
+            DialogResult = DialogResult.Cancel;
+            Close();
         }
     }
 }
