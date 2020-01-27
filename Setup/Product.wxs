@@ -5,11 +5,10 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
 	xmlns:visio="http://schemas.microsoft.com/wix/Visio" >
 
-  <?define Version="1.0.0.0"?>
-  <?define ProductCode = "{3627b4e6-bf18-496c-9061-2645cce6f192}" ?>
+  <?define Version="0.0.1.0"?>
   <?define UpgradeCode = "{0c911118-0967-46f9-9e9e-737d30915c97}" ?>
 
-  <Product Id="$(var.ProductCode)" Name="OSM2VisioAddin" Language="1049" Codepage="1251"
+  <Product Id="*" Name="OSM2VisioAddin" Language="1033"
            Version="$(var.Version)" Manufacturer="OSM2Visio" UpgradeCode="$(var.UpgradeCode)">
     <Package InstallerVersion="200" Compressed="yes" />
 
@@ -113,7 +112,7 @@
       <!--  The .vsto file is addin discovery file. Set up registry to point to this file using |vstolocal -->
       <Component>
         <File Source="$(var.OSM2Visio.TargetDir)$(var.OSM2Visio.TargetName).vsto">
-          <visio:PublishAddin />
+          <visio:PublishAddin FriendlyName="Visio OSM2Visio Addin" />
         </File>
       </Component>
 
@@ -128,10 +127,10 @@
 
     </ComponentGroup>
 
-    <ComponentGroup Id="Stencils" Directory="stencils" Source="stencils">
+    <ComponentGroup Id="Stencils" Directory="stencils" Source="stencils\en">
       <Component >
-        <File Id="Plan.vss" Name="План на местности.vss">
-          <visio:PublishStencil MenuPath="OSM2Visio\План на местности" />
+        <File Name="plan.vss">
+          <visio:PublishStencil MenuPath="OSM2Visio\Plan" />
         </File>
       </Component>
 

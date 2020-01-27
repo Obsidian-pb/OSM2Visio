@@ -21,15 +21,18 @@
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
-    <Cultures>ru-RU</Cultures>
+    <Cultures>
+    </Cultures>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Product.wxs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="License.rtf" />
-    <Content Include="stencils\Водоснабжение.vss" />
-    <Content Include="stencils\План на местности.vss" />
+    <Content Include="stencils\en\water.vss" />
+    <Content Include="stencils\en\plan.vss" />
+    <Content Include="stencils\ru\Водоснабжение.vss" />
+    <Content Include="stencils\ru\План на местности.vss" />
   </ItemGroup>
   <ItemGroup>
     <WixExtension Include="WixNetFxExtension">
@@ -48,6 +51,8 @@
   <ItemGroup>
     <Folder Include="build\" />
     <Folder Include="stencils\" />
+    <Folder Include="stencils\en" />
+    <Folder Include="stencils\ru" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="build\VisioWixExtension.dll" />
