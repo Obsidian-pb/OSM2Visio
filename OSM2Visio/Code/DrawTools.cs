@@ -74,17 +74,7 @@ namespace OSM2Visio.Code
         /// <returns></returns>
         static public Double pf_StrToDbl(String a_Str)
         {
-            try
-            {
-                return Convert.ToDouble(a_Str.Replace(".", ","));
-            }
-            catch (Exception err)
-            {
-                //MessageBox.Show(err.Message);
-                return Convert.ToDouble(a_Str.Replace(",", "."));
-                //throw;
-            }
-
+            return Convert.ToDouble(a_Str, System.Globalization.CultureInfo.InvariantCulture);
         }
 
         #region Работа с координатами
