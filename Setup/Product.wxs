@@ -49,7 +49,7 @@
     <WixVariable Id="WixUILicenseRtf" Value="License.rtf" />
 
     <!-- allow major upgrades -->
-    <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+    <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." AllowSameVersionUpgrades="yes" />
 
     <!-- allow fast installation -->
     <Property Id="MSIFASTINSTALL" Value="7" />
@@ -130,7 +130,7 @@
     <ComponentGroup Id="Stencils" Directory="stencils" Source="stencils\en">
       <Component >
         <File Name="plan.vss">
-          <visio:PublishStencil MenuPath="OSM2Visio\Plan" />
+          <visio:PublishStencil MenuPath="OSM2Visio\Plan" AltNames="OSM2PLAN.vss" />
         </File>
       </Component>
 

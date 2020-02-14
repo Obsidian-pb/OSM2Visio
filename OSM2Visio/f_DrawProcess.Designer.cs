@@ -135,8 +135,10 @@ namespace OSM2Visio
             InchInGradV = DrawTools.GetInchesInGradV(v_Box);
             //MessageBox.Show("Размеры вычислены: Гор -> " + InchInGradH.ToString("R"));
 
+            var vPage = VisioApp.ActivePage;
+
             //---Определяем линейные размеры прямоугольника и приравниваем к нему рабочий лист
-            SetSizeScale(ref VisioApp, v_Box);
+            SetSizeScale(vPage, v_Box);
             //---Увеличиваме картинку листа по размеру окна  Application.ActiveWindow.ViewFit = visFitPage
             VisioApp.ActiveWindow.ViewFit = (int)Visio.VisWindowFit.visFitPage;
             this.Focus();
@@ -175,7 +177,7 @@ namespace OSM2Visio
                     j = j + 2;
                 }
                 //Рисуем фигуру по полученному массиву точек
-                shp = VisioApp.ActivePage.DrawPolyline(ref pnts, 0);
+                shp = vPage.DrawPolyline(ref pnts, 0);
 
                 //Дописываем совйства фигуры
                 TdList = node.SelectNodes("tag");
@@ -278,9 +280,10 @@ namespace OSM2Visio
                 Visio.Shape BcgndShp;
                 Visio.Cell ShpCell;
                 short i;
-                
+
                 //создаем покрытие (лицевую часть)
-                BcgndMstr = VisioApp.Documents["План на местности.vss"].Masters["Дорога 2"];
+                var stencil = VisioApp.Documents.OpenEx("OSM2PLAN.vss", (short)(Visio.VisOpenSaveArgs.visOpenRO | Visio.VisOpenSaveArgs.visOpenDocked));
+                BcgndMstr = stencil.Masters["Дорога 2"];
                 BcgndShp = VisioApp.ActivePage.Drop(BcgndMstr.Shapes[1], 0, 0);
                 i = BcgndShp.get_RowCount(243);  //Определяем количество строк в секции visCustomProps
 
@@ -390,7 +393,8 @@ namespace OSM2Visio
                 short i;
 
                 //создаем покрытие (лицевую часть)
-                Mstr = VisioApp.Documents["План на местности.vss"].Masters["Здание"];
+                var stencil = VisioApp.Documents.OpenEx("OSM2PLAN.vss", (short)(Visio.VisOpenSaveArgs.visOpenRO|Visio.VisOpenSaveArgs.visOpenDocked));
+                Mstr = stencil.Masters["Здание"];
                 BldngShp = VisioApp.ActivePage.Drop(Mstr.Shapes[1], 0, 0);
                 i = BldngShp.get_RowCount(243);  //Определяем количество строк в секции visCustomProps
 
@@ -841,10 +845,8 @@ namespace OSM2Visio
         /// </summary>
         /// <param name="Page">Старница</param>
         /// <param name="a_Box">Координат прямоугольника</param>
-        private void SetSizeScale(ref Microsoft.Office.Interop.Visio.Application VisioApp, DrawTools.CoordRecatangle a_Box)
+        private void SetSizeScale(Visio.Page v_Page, DrawTools.CoordRecatangle a_Box)
         {
-            Visio.Page v_Page;
-            
             Double LenightHor = 0;
             Double LenightVert = 0;
             try
@@ -854,7 +856,6 @@ namespace OSM2Visio
                 //MessageBox.Show(LenightHor.ToString());
 
                 //Устанавливаем масштаб в зависмости от размеров прямоугольинка
-                v_Page = VisioApp.ActivePage;
                 v_Page.PageSheet.get_Cells("DrawingScaleType").Formula = "3";
                 v_Page.PageSheet.get_Cells("PageWidth").Formula = LenightHor + " m";
                 v_Page.PageSheet.get_Cells("PageHeight").Formula = LenightVert + " m";                
