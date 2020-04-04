@@ -6,8 +6,6 @@ namespace OSM2Visio
 {
     public partial class f_ImportDataDialog : Form
     {
-        private Visio.Application VisApp;
-        
         public f_ImportDataDialog()
         {
             InitializeComponent();
